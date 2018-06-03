@@ -12,8 +12,8 @@ application = Flask(__name__, template_folder="templates")
 application.config['GOOGLEMAPS_KEY'] = "AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk"
 search_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?'
 detail_url = "https://maps.googleapis.com/maps/api/place/details/json?"
-#demo_vr_url = "<a href='http://m.detu.com/zh/pano/show/434339?from=singlemessage'>Loading VR</a>"
-demo_vr_url = "http://m.detu.com/zh/pano/show/434339?from=singlemessage"
+demo_vr_url = "<a href='http://m.detu.com/zh/pano/show/434339?from=singlemessage'>Loading VR</a>"
+#demo_vr_url = "http://m.detu.com/zh/pano/show/434339?from=singlemessage"
 key = "AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk"
 # you can also pass key here
 GoogleMaps(application, key=key)

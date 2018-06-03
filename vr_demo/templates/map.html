@@ -6,13 +6,16 @@
             <title>VR Demo</title>
             <link rel="stylesheet" href="">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
             <script src="{{ url_for('static', filename='script.js') }}"></script>
+            <script src="{{ url_for('static', filename='search.js') }}"></script>
             {{fullmap.js}}
     </head>
     <body>
-        <input type="text" id="query" value="Botany Downs Primary School">
+        <input type="text" id="query" value="" size="50">
         <button id="search">Search</button>
         {{ fullmap.html }}
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk&libraries=places&callback=initAutocomplete" async defer> </script>
     </body>
 </html>
 

@@ -187,9 +187,16 @@
     }
 
     function getInfoCallback(map, content) {
-        //alert(content)
+        var infowindow = new google.maps.InfoWindow({content: content});
         return function(ev) {
-            window.open("http://m.detu.com/zh/pano/show/434339?from=singlemessage","_self")
+            if( prev_infowindow_{{gmap.varname}} ) {
+                prev_infowindow_{{gmap.varname}}.close();
+            }
+            prev_infowindow_{{gmap.varname}} = infowindow;
+            infowindow.setPosition(ev.latLng);
+            infowindow.setContent(content);
+            infowindow.open(map, this);
+            //window.open("http://m.detu.com/zh/pano/show/434339?from=singlemessage","_self")
         };
     }
 
