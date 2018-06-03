@@ -3,17 +3,79 @@
 from flask import Flask, render_template
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
+import requests
+import pprint
 
-app = Flask(__name__, template_folder="templates")
+application = Flask(__name__, template_folder="templates")
 
 # you can set key as config
-app.config['GOOGLEMAPS_KEY'] = "AIzaSyAZzeHhs-8JZ7i18MjFuM35dJHq70n3Hx4"
-
+application.config['GOOGLEMAPS_KEY'] = "AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk"
+search_url = 'https://maps.googleapis.com/maps/api/place/textsearch/json?'
+detail_url = "https://maps.googleapis.com/maps/api/place/details/json?"
+#demo_vr_url = "<a href='http://m.detu.com/zh/pano/show/434339?from=singlemessage'>Loading VR</a>"
+demo_vr_url = "http://m.detu.com/zh/pano/show/434339?from=singlemessage"
+key = "AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk"
 # you can also pass key here
-GoogleMaps(app, key="AIzaSyAZzeHhs-8JZ7i18MjFuM35dJHq70n3Hx4")
+GoogleMaps(application, key=key)
+
+base_map = Map(
+    identifier="base_map",
+    varname = 'base_map',
+    style=(
+        "height:75%;"
+        "width:75%;"
+        "top:120;"
+        "left:0;"
+        "position:absolute;"
+        "z-index:200;"
+    ),
+    lat=-36.905718,
+    lng=174.916032,
+    markers=[
+        {
+            'icon': '/static/images/rsz_green-home-icon.png',
+            'lat': -36.905718,
+            'lng': 174.916032,
+            'infobox': demo_vr_url
+        },
+    ],
+)
+
+# new zealand maritime museum {'lat': -36.842194, 'lng': 174.763426},
+@application.route('/')
+def fullmap():
+    return render_template('map.html', fullmap=base_map)
 
 
-@app.route("/")
+@application.route("/sendRequest/<string:query>")
+def results(query):
+    search_payload = {"key": key, "query": query}
+    search_res = requests.get(search_url, params=search_payload)
+    search_json = search_res.json()
+
+    print(search_json['status'])
+    if search_json['status']!='ZERO_RESULTS' and search_json['status']!='OVER_QUERY_LIMIT':
+        loc = search_json["results"][0]['geometry']['location']
+        base_map.markers = []
+        base_map.center = (loc['lat'],loc['lng'])
+        base_map.markers = [
+            {'lat':loc['lat'],
+             'lng':loc['lng'],
+             'infobox':demo_vr_url,
+             'icon': '/static/images/rsz_green-home-icon.png',
+             }
+        ]
+        #base_map.fit_markers_to_bounds = True
+        base_map.zoom = 13
+        #pprint.pprint(search_json["results"][0])
+        #pprint.pprint(base_map.as_json())
+    else:
+        pass
+
+    #return search_json['status'] #todo, use redirect?
+    return render_template('map.html', fullmap=base_map)
+
+@application.route("/example")
 def mapview():
     mymap = Map(
         identifier="view-side",  # for DOM element
@@ -323,53 +385,5 @@ def mapview():
         infoboxmap=infoboxmap
     )
 
-
-@app.route('/fullmap')
-def fullmap():
-    fullmap = Map(
-        identifier="fullmap",
-        varname="fullmap",
-        style=(
-            "height:100%;"
-            "width:100%;"
-            "top:0;"
-            "left:0;"
-            "position:absolute;"
-            "z-index:200;"
-        ),
-        lat=37.4419,
-        lng=-122.1419,
-        markers=[
-            {
-                'icon': '//maps.google.com/mapfiles/ms/icons/green-dot.png',
-                'lat': 37.4419,
-                'lng': -122.1419,
-                'infobox': "Hello I am <b style='color:green;'>GREEN</b>!"
-            },
-            {
-                'icon': '//maps.google.com/mapfiles/ms/icons/blue-dot.png',
-                'lat': 37.4300,
-                'lng': -122.1400,
-                'infobox': "Hello I am <b style='color:blue;'>BLUE</b>!"
-            },
-            {
-                'icon': icons.dots.yellow,
-                'title': 'Click Here',
-                'lat': 37.4500,
-                'lng': -122.1350,
-                'infobox': (
-                    "Hello I am <b style='color:#ffcc00;'>YELLOW</b>!"
-                    "<h2>It is HTML title</h2>"
-                    "<img src='//placehold.it/50'>"
-                    "<br>Images allowed!"
-                )
-            }
-        ],
-        # maptype = "TERRAIN",
-        # zoom="5"
-    )
-    return render_template('example_fullmap.html', fullmap=fullmap)
-
-
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=True)
+    application.run(debug=True, use_reloader=True, host= "192.168.20.8")
