@@ -74,17 +74,23 @@ function initAutocomplete() {
         marker.addListener('click', function() {
             geocoder.geocode( { 'location': marker.getPosition()}, function(results, status) {
                 if (status == 'OK') {
-                    var searchReq = $.get("/fetch_vr/" + results[0].formatted_address);
-                    searchReq.done(function(url_address) { //todo data is valid vr address
-                        if (is_URL(url_address)){
-                            location.assign(url_address);
-                        }
-                        else {
-//                            $('#upload').click();  //not working?
-//                            var uploadReq = $.get("/upload");
-                              location.assign("/upload")
-                        }
-                    });
+                    place_id = JSON.stringify(results[0]["place_id"]);
+                    place_id = place_id.replace(/"/g,"");
+                    if(place_id){
+//                        alert("place_id:"+place_id);
+                        location.assign("/fetch_vr/" + place_id);
+                    }
+//                    searchReq.done(function(url_address) { //todo data is valid vr address
+//
+//                        if (is_URL(url_address)){
+////                            location.assign(url_address);
+//                        }
+//                        else {
+////                            $('#upload').click();  //not working?
+////                            var uploadReq = $.get("/upload");
+////                              location.assign("/upload")
+//                        }
+//                    });
                 }
                 else {
                     alert('Geocode was not successful for the following reason: ' + status);

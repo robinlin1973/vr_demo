@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    <script type="text/javascript" src="//sinanbolel.firebaseapp.com/cdn/panolens-1.0.1-beta.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        var panorama, viewer;
+        var vr_file_url = "{{address}}"
+        viewer = new PANOLENS.Viewer();
+
+        <!--panorama = new PANOLENS.ImagePanorama( '../static/images/house.jpg' );-->
+        <!--alert("vr_file_url:"+vr_file_url)-->
+        panorama = new PANOLENS.ImagePanorama( vr_file_url );
+        viewer.add( panorama );
+    </script>
+</body>
+</html>
