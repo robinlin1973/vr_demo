@@ -3,13 +3,24 @@
 
 <head>
     <title>AWS S3 File Upload</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+
 </head>
 
 <body>
+    You can upload the current location's VR file<br>
+    The current google_place_id is: {{place_id}}<br>
+    You have to name the VR fiel as:{{place_id}}.jpg<br>
+    <br>
+    <!--<input id="pac-input" class="controls" type="text" placeholder="Search Box">-->
     <input type="file" id="file-chooser" />
-    <button id="upload-button">Upload to S3</button>
-    <div id="results"></div>
+    <br>
+    <br>
+    <button id="upload-button">上传VR</button>
+    <br>
+    <br>
+    <script src="{{ url_for('static', filename='upload_vr.js') }}"></script>
 </body>
 
 </html>

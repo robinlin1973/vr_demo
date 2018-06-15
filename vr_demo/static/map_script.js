@@ -79,6 +79,7 @@ function initAutocomplete() {
                     if(place_id){
 //                        alert("place_id:"+place_id);
                         location.assign("/fetch_vr/" + place_id);
+//                        window.open("/fetch_vr/" + place_id,'_blank');
                     }
 //                    searchReq.done(function(url_address) { //todo data is valid vr address
 //
