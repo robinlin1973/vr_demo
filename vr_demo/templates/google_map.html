@@ -92,12 +92,69 @@
     </style>
   </head>
   <body>
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <!--<input type="file" id="file-chooser" />-->
-    <!--<button id="upload-button">上传VR</button>-->
     <div id="map"></div>
+    <script type="text/javascript">
+        var icon = {
+            url:"/static/images/rsz_green-home-icon.png",
+        };
+        var marker;
 
-    <script src="{{ url_for('static', filename='map_script.js') }}"></script>
+        function get_para(vars) {
+           return vars
+        }
+
+        function clickMarker(marker,place_id){
+            if(place_id){
+                location.assign("/fetch_vr/" + place_id);
+            }else{
+                alert("no valid place_id")
+            }
+        }
+
+        function placeMarkerAndPanTo(latLng, map) {
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                icon:icon
+            });
+            var geocoder= new google.maps.Geocoder();
+            geocoder.geocode( { 'location': marker.getPosition()}, function(results, status) {
+                if (status == 'OK') {
+                    place_id = JSON.stringify(results[0]["place_id"]);
+                    place_id = place_id.replace(/^"(.*)"$/, '$1');
+                    marker.addListener('click', function(){clickMarker(marker,place_id)});
+                }else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+        function initAutocomplete(){
+            loc = get_para({{location|tojson}});
+            place_id = loc.place_id;
+            lat = parseFloat(loc.lat);
+            lng = parseFloat(loc.lng);
+            <!--alert("lat"+"lng")-->
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: lat,lng: lng},
+                zoom: 13,
+                mapTypeId: 'roadmap',
+                disableDoubleClickZoom : true
+            });
+            latlng = new google.maps.LatLng(lat, lng);
+            marker = new google.maps.Marker({map: map,icon: icon,title: place_id,position: latlng});
+            marker.addListener('click', function(){clickMarker(marker,place_id)})
+
+            map.addListener('dblclick', function(e) {
+                marker.setMap(null);
+                placeMarkerAndPanTo(e.latLng, map);
+                e.stop();
+            });
+        }
+
+    </script>
+    <!--<script src="{{ url_for('static', filename='map_script.js') }}"></script>-->
+    <!--<script src="{{ url_for('static', filename='upload_vr.js') }}"></script>-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk&libraries=places&callback=initAutocomplete"
          async defer></script>
   </body>
