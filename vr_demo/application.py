@@ -17,15 +17,19 @@ bucket = s3.Bucket(s3_bucket_name)
 
 @application.route("/fetch_vr/<string:place_id>")
 def fetch_vr(place_id):
-    key = place_id + '.jpg'
-    objs = list(bucket.objects.filter(Prefix=key))
-    if len(objs) > 0 and objs[0].key == key:
-        file_url = vr_s3_folder + key
-        print("Exists! {}".format(file_url))
-        return render_template("panolens.html", address=file_url)
-    else:
-        # print("Doesn't exist, show upload html")
-        return render_template("upload.html",place_id=place_id)
+    # # key = place_id + '.jpg'
+    # key = place_id+'/index.htm'
+    # objs = list(bucket.objects.filter(Prefix=key))
+    # if len(objs) > 0 and objs[0].key == key:
+    #     file_url = vr_s3_folder + key
+    #     # print("Exists! {}".format(file_url))
+    #     # return render_template("panolens.html", address=file_url)
+    #     # return redirect("https://www.3dvista.com/samples/real_estate_virtual_tour.html", code=302)
+    #     return redirect("https://s3.us-east-2.amazonaws.com/vr-content/"+key, code=302)
+    # else:
+    #     # print("Doesn't exist, show upload html")
+    #     return render_template("upload.html",place_id=place_id)
+    return render_template("matterport_demo.html")
 
 
 # @application.route("/upload")
@@ -49,6 +53,14 @@ def show_map():
     }
     return render_template("google_map.html",location=location)
 
+
+@application.route("/panotour",methods=['GET', 'POST'])
+def panotour():
+    return render_template("panotour.html")
+
+@application.route("/d3vista",methods=['GET', 'POST'])
+def d3vista():
+    return redirect("https://www.3dvista.com/samples/real_estate_virtual_tour.html", code=302)
 
 if __name__ == "__main__":
     #application.run(debug=True, use_reloader=True)
