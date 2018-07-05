@@ -1,12 +1,11 @@
 # coding: utf-8
 
-from flask import Flask, render_template,url_for,redirect,request
+from flask import Flask, render_template,url_for,redirect,request,make_response
 import boto3
-# from bs4 import BeautifulSoup
-# import requests
+from datetime import timedelta
+from functools import update_wrapper
 
 application = Flask(__name__, template_folder="templates")
-
 #demo_vr_url = "<a href='http://m.detu.com/zh/pano/show/434339?from=singlemessage'>Loading VR</a>"
 # demo_vr_url = "http://showroom.littleworkshop.fr/"#"http://m.detu.com/zh/pano/show/434339?from=singlemessage"
 # sample_place_id = "ChIJ2YzT-RRLDW0RGqHdX0k4wJM"
@@ -31,6 +30,16 @@ def fetch_vr(place_id):
     #     return render_template("upload.html",place_id=place_id)
     return render_template("matterport_demo.html")
 
+@application.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
+
+@application.route("/vrservice")
+def vr_service():
+    return render_template("vrservice.html")
 
 # @application.route("/upload")
 # def upload_vr():

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-
 <html>
-<head><title>
+<head>
+    <title>
 	VR 示房网
-</title><meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+    </title><meta name="viewport" content="initial-scale=1, maximum-scale=1" />
     <!-- Chrome, Firefox OS and Opera -->
     <meta name="theme-color" content="#2e2e1f" />
     <!-- Windows Phone -->
@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta name="robots" content="INDEX, FOLLOW" />
-    <link rel="icon" href="https://www.relab.co.nz/favicon.ico" />
+    <link rel="icon" href="../static/images/Software 3D.png" />
     <link href="../static/css/Fonts.css" rel="stylesheet" />
 	<link href="../static/css/css0.css" rel="stylesheet"/>
 	<link href="../static/css/css1.css" rel="stylesheet"/>
@@ -23,9 +23,8 @@
 	<link href="../static/css/style2.css"  rel="stylesheet"/>
 	<link rel="shortcut icon" href="#">
 </head>
-<body>
+<body style="height:100%">
     <div data-spy="scroll" data-offset="80">
-        <!-- START NAVBAR -->
         <div class="navbar navbar-default navbar-fixed-top menu-top">
             <div class="container">
                 <div class="navbar-header">
@@ -35,16 +34,6 @@
                                 <span class="displayuname"></span>
                             </a>
                         </span>
-                        <a class="lnkreguser" style="display: none; margin-right: 10px;" href="#" data-toggle="modal" data-target="#myLoginModal">
-                            <span class="glyphicon glyphicon-user" style="color: gray"></span>&nbsp;
-							登录/注册
-                        </a>
-                        <button class="navbar-header btn-info" type="button" data-toggle="collapse" data-target=".navbar-collapse" style="height: 38px; border: 0px;">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
                     </div>
 
                     <div>
@@ -53,7 +42,6 @@
                         </a>
                         <span>
                             <a class="lnkswitchlangheader label label-success linktakeen" href="javascript:setLangforce(0);" style="display: none;">English</a>
-                            
                         </span>
                     </div>
                 </div>
@@ -66,32 +54,17 @@
                                 </a>
                             </span>
                         </div>
-                        <!--<ul class="nav navbar-nav navbar-right">-->
-                            <!--<li>-->
-                                <!--<a class="page-scroll" href="/marketmap">-->
-                                    <!--示房地图-->
-                                <!--</a>-->
-                            <!--</li>-->
-                            <!--<li id="ContentPlaceHolderContents_menuBlog"><a class="page-scroll contentCNOnly" href="/posts">最新文章</a></li>-->
-                            <!--<li><a class="page-scroll" href="/schoolrank">-->
-                                <!--奥克兰小学/初中目录</a></li>-->
-                            <!--<li><a class="page-scroll" href="/collegerank">-->
-                                <!--奥克兰高中目录</a></li>-->
-                            <!--<li class="lnkreguser homeloginbtn" style="display: none;">-->
-                                <!--<a href="#" data-toggle="modal" data-target="#myLoginModal" style="padding-top: 10px;">-->
-                                    <!--<span class="glyphicon glyphicon-user"></span>&nbsp;-->
-									<!--登录/注册-->
-                                <!--</a>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-
+                        <ul class="nav navbar-nav navbar-center">
+                            <li>
+                                <a class="page-scroll" href="/vrservice" style="font-size: 30px; text-decoration: none">
+                                    VR Content Service
+                                </a>
+                            </li>
+                        </ul>
                     </nav>
                 </div>
             </div>
-            <!--- END CONTAINER -->
         </div>
-        <!-- END NAVBAR -->
-        <!-- START HOME -->
         <section id="home" class="welcome-area">
             <div class="welcome-slider-area">
                 <div class="carousel-inner" role="listbox">
@@ -103,7 +76,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <h2>
-                                                    VR 示房网
+                                                    Property VR
                                                 </h2>
                                                 <div id="addrsearchbox" class="form-submit">
                                                     <div class="search">
@@ -115,7 +88,7 @@
                                                                     <i id="homesearcharrow" class="fa fa-globe" style="padding-top: 5px;"></i>
                                                                     <i id="homesearchloading" class="fa fa-cog fa-spin fa-fw" style="display: none;"></i>
                                                                 </span>
-                                                                <input name="ctl00$ContentPlaceHolderContents$search_field" type="text" id="search_field" class="form-control focusedInput searchAddr" placeholder="输入房产地址,街道,房源号或学校名" aria-label="输入房产地址,街道,房源号或学校名" />
+                                                                <input name="ctl00$ContentPlaceHolderContents$search_field" type="text" id="search_field" class="form-control focusedInput searchAddr" placeholder="Input property address" aria-label="Input property address" />
                                                                 <span class="input-group-addon">
                                                                     <button type="submit" id="btnfindprop" class="btn" onclick="findbtnclicking();return false;">
                                                                         <span id="loadingglyph" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: none"></span>
@@ -124,32 +97,18 @@
                                                                     </button>
                                                                 </span>
                                                             </div>
-                                                            <div class="relab-geolocate">
+                                                            <div class="vr-geolocate">
                                                                 <span class="navtext">
                                                                     
                                                                 </span>
-                                                                <a href="/showmap?place_id=ChIJJdxLbfBHDW0Rh5OtgMO10QI&lat=-36.848448&lng=174.76219100000003" class="btn btn-success"><span class="glyphicon fa fa-location-arrow"></span>
-                                                                    Google-Map
-                                                                </a>
-
-
-                                                                        <a id="ContentPlaceHolderContents_RepeaterSuburbs_lnksuburb_0" class="btn btn-default" href="/showmap?place_id=ChIJy3TpSfyxOG0RcLQTomPvAAo&lat=-41.2864603&lng=174.77623600000004">Wellington</a>
+                                                                <a href="/showmap?place_id=ChIJJdxLbfBHDW0Rh5OtgMO10QI&lat=-36.848448&lng=174.76219100000003" class="btn btn-success"><span class="glyphicon fa fa-location-arrow"></span>Google-Map</a>
+                                                                <a id="ContentPlaceHolderContents_RepeaterSuburbs_lnksuburb_0" class="btn btn-default" href="/showmap?place_id=ChIJy3TpSfyxOG0RcLQTomPvAAo&lat=-41.2864603&lng=174.77623600000004">Wellington</a>
+                                                                <a id="ContentPlaceHolderContents_RepeaterSuburbs_lnksuburb_1" class="btn btn-default" href="/showmap?place_id=ChIJAe3FY0gvMm0RRZl5hIbvAAU&lat=-43.53205440000001&lng=172.63622540000006">Christchurch</a>
                                                                     
-                                                                        <a id="ContentPlaceHolderContents_RepeaterSuburbs_lnksuburb_1" class="btn btn-default" href="/showmap?place_id=ChIJAe3FY0gvMm0RRZl5hIbvAAU&lat=-43.53205440000001&lng=172.63622540000006">Christchurch</a>
-                                                                    
-                                                            </div>
-                                                            <div class="panel-group" style="padding-bottom: 10px;">
-                                                                <div class="panel" style="background-color: transparent">
-                                                                    <div class="panel-body" style="color: white">
-                                                                        热门区域搜索
-                                                                    </div>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div id="homeworddiv" class="col-md-12">
                                             </div>
                                         </div>
                                     </div>
@@ -160,10 +119,8 @@
                 </div>
             </div>
         </section>
-        <!-- END  HOME DESIGN -->
-        <!-- START HOME CONTENT -->
 
-<script>
+        <script>
     var place;
     function initMap() {
         var input = document.getElementById('search_field');
@@ -191,297 +148,9 @@
             alert("not a valid place")
         }
     }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk&libraries=places&callback=initMap"
-        async defer></script>
-<!-- START ABOUT -->
-<section id="about" class="about-us section-padding">
-	<div class="container">
-		<div class="row text-center">
-			<div class="section-title wow zoomIn">
-				<h2>VR 示房网</h2>
-				<span></span>
-				<p>VR 示房网数据授权来自于土地局，奥克兰市政府，教育部等合法数据源。</p>
-			</div>
-			<!--- END COL -->
-		</div>
-		<!--- END ROW -->
-	</div>
-	<!--- END CONTAINER -->
-</section>
-<!-- END ABOUT -->
-<!-- START COUNDOWN -->
-<section class="counter_feature">
-	<div class="container">
-		<div class="row text-center">
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.2s" data-wow-offset="0">
-				<div class="counter">
-					<i class="fa fa-check"></i>
-					<h2 class="timer">6000000</h2>
-					<h5>条房源信息</h5>
-				</div>
-			</div>
-			<!--- END COL -->
-			<div class="col-md-3 col-sm-6 col-xs-12 wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.5s" data-wow-offset="0">
-				<div class="counter">
-					<i class="fa fa-check"></i>
-					<h2 class="timer">22000</h2>
-					<h5>活跃用户</h5>
-				</div>
-			</div>
-			<!--- END COL -->
-		</div>
-		<!--- END ROW -->
-	</div>
-	<!--- END CONTAINER -->
-</section>
-
-<footer id="page-footer">
-    <div id="footerpage" class="inner">
-        <section id="footer-main">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-sm-4">
-                        <article>
-                            <h3>
-                                地址目录
-                            </h3>
-                            <ul class="list-unstyled list-links">
-                                <li>
-                                    <a id="partFooter1_lnksubcentral" href="/suburbs/central">奥克兰中区</a>
-                                </li>
-                                <li>
-                                    <a id="partFooter1_lnksubnorth" href="/suburbs/north">奥克兰北岸</a>
-                                </li>
-                                <li>
-                                    <a id="partFooter1_lnksubeast" href="/suburbs/east">奥克兰东区</a>
-                                </li>
-                                <li>
-                                    <a id="partFooter1_lnksubwest" href="/suburbs/west">奥克兰西区</a>
-                                </li>
-                                <li>
-                                    <a id="partFooter1_lnksubsouth" href="/suburbs/south">奥克兰南区</a>
-                                </li>
-                                <li>
-                                    <a id="partFooter1_lnksubrod" href="/suburbs/rod">奥克兰罗德尼区</a>
-                                </li>
-                                <li>
-                                    <a id="partFooter1_lnksubisland" href="/suburbs/island">奥克兰周边岛屿</a>
-                                </li>
-                            </ul>
-                        </article>
-                    </div>
-
-                    <div class="col-md-4 col-sm-4">
-                        <article class="contact-us">
-                            <h3>
-                                联系我们
-                            </h3>
-                            商业合作和其他事宜
-                            <a href="mailto:support@sample.co.nz" class="mailto">support@sample.co.nz</a>
-                        </article>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                        <article>
-                            <h3>
-                                法律申明</h3>
-                            <ul class="list-unstyled list-links">
-                                <li><a href="/Pages/legalterms">
-                                    使用条款
-                                </a></li>
-                                <li><a href="/Pages/privacy">
-                                    隐私条款</a></li>
-                                <li><a href="/infopage/faq">
-                                    常见问题</a></li>
-                            </ul>
-                        </article>
-                    </div>
-                </div>
-                <br />
-                <div>
-                    © copyright ©2018
-                </div>
-                <!-- /.row -->
-            </div>
-            <!-- /.container -->
-        </section>
-        <!-- /#footer-main -->
-        <section id="footer-thumbnails" class="footer-thumbnails"></section>
-        
+    </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk&libraries=places&callback=initMap"
+            async defer></script>
     </div>
-    <!-- /.inner -->
-</footer>
-
-
-<div class="modal fade middleModal" id="myLoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id="loginregscreen" class="panel-login">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <a href="#" class="active" id="login-form-link">
-                                登录
-                            </a>
-                        </div>
-                        <div class="col-xs-6">
-                            <a href="#" id="register-form-link">
-                                注册
-                            </a>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-                <div class="panel-body">
-                    <div id="login-form" class="regscreen" style="display: block;">
-                        <div class="alert alert-danger" id="diverrorlogin" role="alert" style="display: none">
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                            <span class="sr-only">
-                                注册
-                                :
-                            </span>
-                            <span id="loginerrmsg"></span>
-                        </div>
-                        <div class="form-group">
-                            <input name="ctl00$partLogin1$username" type="text" id="username" tabindex="1" class="form-control" maxlength="60" placeholder="用户名/Email" />
-                        </div>
-                        <div class="form-group">
-                            <input name="ctl00$partLogin1$password" type="password" id="password" tabindex="2" class="form-control" maxlength="30" placeholder="密码" />
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
-                                    <button type="submit" class="form-control btn btn-login" tabindex="4" onclick="return loginclick();">
-                                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none"></span>
-                                        登录
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="partLogin1_pnlfblogin" class="form-group">
-	
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
-                                    <button type="submit" class="form-control btn btn-facebook-login" tabindex="4" onclick="loginFB();return false;">
-                                        <i class="fa fa-facebook"></i>
-                                        Facebook 登录
-                                    </button>
-                                </div>
-                            </div>
-                        
-</div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-3">
-                                    <button type="submit" class="form-control btn btn-login-forgot" tabindex="5" onclick="return forgetclick();">
-                                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingForgot" style="display: none"></span>
-                                        忘记密码?
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="register-form" class="regscreen" style="display: none;">
-                        <div class="alert alert-danger" id="diverrorpwd" role="alert" style="display: none">
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                            <span class="sr-only">
-                                注册:
-                            </span>
-                            <span id="regerrmsg"></span>
-                        </div>
-                        <div class="form-group">
-                            <input name="ctl00$partLogin1$registerusername" type="text" id="registerusername" tabindex="1" class="form-control" maxlength="30" placeholder="用户名" />
-                        </div>
-                        <div class="form-group">
-                            <input name="ctl00$partLogin1$registeremail" type="email" id="registeremail" tabindex="1" class="form-control" maxlength="80" placeholder="Email 地址" />
-                        </div>
-                        <div class="form-group">
-                            <input name="ctl00$partLogin1$registerpassword" type="password" id="registerpassword" tabindex="2" class="form-control" maxlength="20" placeholder="密码" />
-                        </div>
-                        <div class="form-group">
-                            <input name="ctl00$partLogin1$confirmpassword" type="password" id="confirmpassword" tabindex="2" class="form-control" maxlength="20" placeholder="重复密码" />
-                        </div>
-                        <div class="checkboxes" style="padding-bottom: 10px;">
-                            <label for="chxcheckagree">
-                                <input type="checkbox" id="chxcheckagree" class="no-icheck" />
-                                <span>
-                                    阅读并接受
-                                    <a href="/Pages/legalterms" target="_blank">
-                                        使用条款</a>,<a href="/Pages/privacy" target="_blank">隐私条款</a>.
-                                </span>
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-sm-6 col-sm-offset-3">
-                                    <button id="btnregbuttonloginmodel" type="submit" class="form-control btn btn-register" tabindex="4" onclick="return registerclick();" disabled="disabled">
-                                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none"></span>
-                                        现在注册
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="pnlRegistered" class="panel panel-default" style="display: none">
-                <div class="panel-heading panel-success">
-                    注册成功
-                </div>
-                <div class="panel-body">
-                    <button type="button" class="btn btn-success center-block" onclick="javacript:location.reload();">
-                        登入系统
-                    </button>
-                </div>
-            </div>
-            <div id="pnlRegisteredActivate" class="panel panel-default panelnoborder" style="display: none">
-                <div class="panel-heading panel-success">
-                    注册成功，请等待激活Email
-                </div>
-                <div class="panel-body">
-                    <button type="button" id="btnResendVerify" class="btn btn-default center-block" onclick="javacript:resendverifyclick();">
-                        Email 没收到? 再次发送
-                    </button>
-                    <button type="button" class="btn btn-success center-block" onclick="javacript:location.reload();" style="margin-top: 15px">
-                        已经激活了?登入系统
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-        
-<div id="popover-content" class="hide">
-	<div style="text-align: center">
-		<h5 class="displayunamefull"></h5>
-	</div>
-	
-	<div style="text-align: center; padding-top: 5px;">
-		<a class="lnkreguser" href="javascript:logingoff();" style="text-align: center">
-			注销
-		</a>
-	</div>
-</div>       
-        
-<div class="modal fade middleModal in" id="myLoadingModel" tabindex="-1" role="dialog">
-    <div class="modal-dialog" style="height:225px;">
-        <div class="modal-content">
-            <div class="panel-login">
-                <div class="panel-body" style="text-align: center">
-                    <div class="circle-loader">
-                        <div class="checkmark draw"></div>
-                    </div>
-                    <h4 id="loading-text" style="padding: 0px;margin:0px;"></h4>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
- </form>
-</div>>
 </body>
 </html>
