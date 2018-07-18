@@ -4,11 +4,11 @@ from flask import Flask, render_template,url_for,redirect,request,make_response
 import boto3
 from datetime import timedelta
 from functools import update_wrapper
+from flask_mobility import Mobility
+from flask_mobility.decorators import mobile_template,mobilized
 
 application = Flask(__name__, template_folder="templates")
-#demo_vr_url = "<a href='http://m.detu.com/zh/pano/show/434339?from=singlemessage'>Loading VR</a>"
-# demo_vr_url = "http://showroom.littleworkshop.fr/"#"http://m.detu.com/zh/pano/show/434339?from=singlemessage"
-# sample_place_id = "ChIJ2YzT-RRLDW0RGqHdX0k4wJM"
+Mobility(application)
 s3 = boto3.resource('s3')
 s3_bucket_name = 'vr-content'
 vr_s3_folder = 'https://s3.us-east-2.amazonaws.com/vr-content/'
@@ -28,7 +28,8 @@ def fetch_vr(place_id):
     # else:
     #     # print("Doesn't exist, show upload html")
     #     return render_template("upload.html",place_id=place_id)
-    return render_template("matterport_demo.html")
+    # return render_template("matterport_demo.html")
+    return render_template("3dspace.html",name="JGPnGQ6hosj")
 
 @application.after_request
 def after_request(response):
@@ -41,17 +42,18 @@ def after_request(response):
 def vr_service():
     return render_template("vrservice.html")
 
-# @application.route("/upload")
-# def upload_vr():
-#     # print("show upload form")
-#     return render_template("upload.html")
-
-@application.route("/",methods=['GET', 'POST'])
+# @mobile_template('{mobile/}index.html')
 def show_homepage():
     return render_template("index.html")
 
+@application.route("/",methods=['GET', 'POST'])
+@mobilized(show_homepage)
+def show_homepage():
+    return redirect(url_for('show_map',place_id="ChIJJdxLbfBHDW0Rh5OtgMO10QI",lat=-36.848448,lng=174.76219100000003))
+
 @application.route("/showmap")
-def show_map():
+@mobile_template('{mobile/}google_map.html')
+def show_map(template):
     place_id = request.args.get('place_id')
     lat = request.args.get('lat')
     lng = request.args.get('lng')
@@ -60,7 +62,12 @@ def show_map():
         "lat":lat,
         "lng":lng
     }
-    return render_template("google_map.html",location=location)
+    return render_template(template,location=location)
+
+@application.route("/matterport/<name>")
+def matterport(name):
+
+    return render_template("3dspace.html",name=name)
 
 
 @application.route("/panotour",methods=['GET', 'POST'])
@@ -72,5 +79,4 @@ def d3vista():
     return redirect("https://www.3dvista.com/samples/real_estate_virtual_tour.html", code=302)
 
 if __name__ == "__main__":
-    #application.run(debug=True, use_reloader=True)
-    application.run()#host="192.168.20.8"
+    application.run(host="192.168.20.8",debug=True)
