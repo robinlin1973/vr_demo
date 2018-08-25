@@ -1,0 +1,15 @@
+#outer {
+    text-align: center;
+    display:inline-block;
+    margin: 0 auto;
+    position: relative;
+}
+
+#element_block {
+    text-align: center;
+    display:block;
+}
+
+#highlight_gif{
+    padding: 15px;
+}

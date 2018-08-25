@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% block title %}VR 360 Contact | Matterport Service Partner{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="Description" content="Matterport 3D virtual tours contact in Auckland,New Zealand">
+    <meta name="Keywords" content="Matterport Auckland, 3d tour, Auckland 3d photographer, matterport in Auckland">
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <a href="#" class="scrollToTop"><i class="fa fa-angle-up"></i></a>
+    <!--Loader-->
+    <div class="loader">
+      <div class="satellite"></div>
+      <p class="title-loader">Loading ...</p>
+    </div>
+
+    <!--Page Header-->
+    <section class="page_header padding-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center page-content">
+            <h1>Contact Us</h1>
+            <p>Get more information about Matterport 3D Tours</p>
+            <div class="page_nav">
+          <span>You are here:</span> <a href="/">Home</a> <span><i class="fa fa-angle-double-right"></i>Contact Us</span>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Contact Deatils SECTION-->
+    <section id="contact" class="padding">
+      <div class="container">
+        <div class="row padding-bottom">
+            <div class="col-md-4 contact_address heading_space">
+                <h2 class="heading heading_space">Get in Touch <span class="divider-left"></span></h2>
+                <p></p>
+
+                <div class="address">
+                    <i class="icon icon-mail"></i>
+                    <h4>Email Us</h4>
+                    <p><a href="mailto:test@hotmail.com">Email</a></p>
+                </div>
+                <div class="address">
+                    <i class="icon icon-phone4"></i>
+                    <h4>Robin</h4>
+                    <p>XXX-XXX-XXXX</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+            <h2 class="heading heading_space">Fill the Contact Form<span class="divider-left"></span></h2>
+
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul class=flashes>
+                        {% for message in messages %}
+                          <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                  {% endif %}
+                {% endwith %}
+                <form class="form-group" action = "/contact" method = POST>
+                <fieldset>
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.name.label }}<br>
+                        {{ form.name(class="form-control") }}<br>
+                        {{ form.email.label }}<br>
+                        {{ form.email(class="form-control") }}<br>
+                        {{ form.phone.label }}<br>
+                        {{ form.phone(class="form-control") }}<br>
+                        {{ form.size.label }} <br>
+                        {{ form.size(class="form-control") }}<br>
+                        {{ form.type.label }} <br>
+                        {{ form.type(class="form-control") }}<br>
+                        {{ form.date.label }}<br>
+                        {{ form.date(class="form-control") }}<br>
+                        <br>
+                        {{ form.submit }}
+                    </div>
+                </fieldset>
+                </form>
+
+                <ul class="social_icon heading_top">
+                    <li><a href="#." class="facebook"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#." class="twitter"><i class="icon-twitter4"></i></a></li>
+                    <li><a href="#." class="dribble"><i class="icon-dribbble5"></i></a></li>
+                    <li><a href="#." class="instagram"><i class="icon-instagram"></i></a></li>
+                    <li><a href="#." class="vimo"><i class="icon-vimeo4"></i></a></li>
+                </ul>
+            </div>
+
+        </div>
+      </div>>
+    </section>
+{% endblock %}
+

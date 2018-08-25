@@ -1,0 +1,151 @@
+<div class="modal fade middleModal" id="myLoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="loginregscreen" class="panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active" id="login-form-link">
+                                登录
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link">
+                                注册
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div id="login-form" class="regscreen" style="display: block;">
+                        <div class="alert alert-danger" id="diverrorlogin" role="alert" style="display: none">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            <span class="sr-only">
+                                注册
+                                :
+                            </span>
+                            <span id="loginerrmsg"></span>
+                        </div>
+                        <div class="form-group">
+                            <input name="ctl00$partLogin1$username" type="text" id="username" tabindex="1" class="form-control" maxlength="60" placeholder="用户名/Email">
+                        </div>
+                        <div class="form-group">
+                            <input name="ctl00$partLogin1$password" type="password" id="password" tabindex="2" class="form-control" maxlength="30" placeholder="密码">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button type="submit" class="form-control btn btn-login" tabindex="4" onclick="return loginclick();">
+                                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none"></span>
+                                        登录
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="partLogin1_pnlfblogin" class="form-group">
+
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button type="submit" class="form-control btn btn-facebook-login" tabindex="4" onclick="loginFB();return false;">
+                                        <i class="fa fa-facebook"></i>
+                                        Facebook 登录
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <button type="submit" class="form-control btn btn-login-forgot" tabindex="5" onclick="return forgetclick();">
+                                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingForgot" style="display: none"></span>
+                                        忘记密码?
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="register-form" class="regscreen" style="display: none;">
+                        <!--<form action="{{ url_for('signup') }}" method="POST">-->
+                            <div class="alert alert-danger" id="diverrorpwd" role="alert" style="display: none">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">
+                                    注册:
+                                </span>
+                                <span id="regerrmsg"></span>
+                            </div>
+                            <div class="form-group">
+                                <input name="ctl00$partLogin1$registerusername" type="text" id="registerusername" tabindex="1" class="form-control" maxlength="30" placeholder="用户名">
+                            </div>
+                            <div class="form-group">
+                                <input name="ctl00$partLogin1$registeremail" type="email" id="registeremail" tabindex="1" class="form-control" maxlength="80" placeholder="Email 地址">
+                            </div>
+                            <div class="form-group">
+                                <input name="ctl00$partLogin1$registerpassword" type="password" id="registerpassword" tabindex="2" class="form-control" maxlength="20" placeholder="密码">
+                            </div>
+                            <div class="form-group">
+                                <input name="ctl00$partLogin1$confirmpassword" type="password" id="confirmpassword" tabindex="2" class="form-control" maxlength="20" placeholder="重复密码">
+                            </div>
+                            <div class="checkboxes" style="padding-bottom: 10px;">
+                                <label for="chxcheckagree">
+                                    <input type="checkbox" id="chxcheckagree" class="no-icheck">
+                                    <span>
+                                        阅读并接受
+                                        <a href="/Pages/legalterms" target="_blank">
+                                            使用条款</a>,<a href="/Pages/privacy" target="_blank">隐私条款</a>.
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                        <button id="btnregbuttonloginmodel" type="submit" class="form-control btn btn-register" tabindex="4" onclick="return registerclick();" disabled="disabled">
+                                            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none"></span>
+                                            现在注册
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlRegistered" class="panel panel-default" style="display: none">
+                <div class="panel-heading panel-success">
+                    注册成功
+                </div>
+                <div class="panel-body">
+                    <button type="button" class="btn btn-success center-block" onclick="javacript:location.reload();">
+                        登入系统
+                    </button>
+                </div>
+            </div>
+            <div id="pnlRegisteredActivate" class="panel panel-default panelnoborder" style="display: none">
+                <div class="panel-heading panel-success">
+                    注册成功，请等待激活Email
+                </div>
+                <div class="panel-body">
+                    <button type="button" id="btnResendVerify" class="btn btn-default center-block" onclick="javacript:resendverifyclick();">
+                        Email 没收到? 再次发送
+                    </button>
+                    <button type="button" class="btn btn-success center-block" onclick="javacript:location.reload();" style="margin-top: 15px">
+                        已经激活了?登入系统
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="popover-content" class="hide">
+	<div style="text-align: center">
+		<h5 class="displayunamefull"></h5>
+	</div>
+
+	<div style="text-align: center; padding-top: 5px;">
+		<a class="lnkreguser" href="javascript:logingoff();" style="text-align: center">
+			SignOut
+		</a>
+	</div>
+</div>

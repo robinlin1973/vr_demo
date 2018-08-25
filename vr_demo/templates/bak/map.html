@@ -1,0 +1,26 @@
+
+{% extends "layout.html" %}
+{% block title %}VR 360 Property Map | Matterport Service Partner{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="Description" content="Matterport 3D virtual tours contact in Auckland,New Zealand">
+    <meta name="Keywords" content="Matterport Auckland, 3d tour, Auckland 3d photographer, matterport in Auckland">
+{% endblock %}
+{% block content %}
+    {{ super() }}
+
+    <a href="#" class="scrollToTop"><i class="fa fa-angle-up"></i></a>
+    <!--Loader-->
+    <div class="loader">
+        <div class="satellite"></div>
+        <p class="title-loader">Loading ...</p>
+    </div>
+    {%include "./google_map.html" %}
+{% endblock %}
+
+
+
+

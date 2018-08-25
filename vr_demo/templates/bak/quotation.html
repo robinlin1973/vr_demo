@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+    <header>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </header>
+   <body>
+
+      <h2 style = "text-align: center;">Quotation Form</h2>
+
+      <!--{% for message in form.name.errors %}-->
+         <!--<div>{{ message }}</div>-->
+      <!--{% endfor %}-->
+
+      <!--{% for message in form.email.errors %}-->
+         <!--<div>{{ message }}</div>-->
+      <!--{% endfor %}-->
+
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+          {% endif %}
+      {% endwith %}
+          <div data-spy="scroll" data-offset="80">
+              <div class="navbar navbar-default navbar-fixed-top menu-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="navbar-toggle">
+                        <span class="lnkdisplayname" style="display: none">
+                            <a class="btn btn-default loginpopover" style="color: white" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true">
+                                <span class="displayuname"></span>
+                            </a>
+                        </span>
+                    </div>
+
+                    <div>
+                        <a href="/" class="navbar-brand">
+                            <img id="imglogoSVG" src="../static/images/vr_phone.png" alt="logo" width="52" height="52" />
+                        </a>
+                        <span>
+                            <a class="lnkswitchlangheader label label-success linktakeen" href="javascript:setLangforce(0);" style="display: none;">English</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <nav>
+                        <div class="nav navbar-nav navbar-right homeloginbtn" style="padding-top: 5px;">
+                            <span class="lnkdisplayname" style="display: none">
+                                <a class="btn btn-default loginpopover" style="color: white" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true">
+                                    <span class="displayuname"></span>
+                                </a>
+                            </span>
+                        </div>
+                        <ul class="nav navbar-nav navbar-center">
+                            <li>
+                                <a class="page-scroll" href="/vrservice" style="font-size: 30px; text-decoration: none">
+                                    VR Service Introduction
+                                </a>
+                            </li>
+                            <li>
+                                <a class="page-scroll" href="/quotation" style="font-size: 30px; text-decoration: none">
+                                    Quotation
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+          </div>
+        <div class="w-25 p-3 form-group container center border" >
+            <form class="border" action = "/quotation" method = post>
+                 <fieldset>
+                    <legend>Please fill in your detail, We will contact you within 2 working days</legend>
+                    {{ form.hidden_tag() }}
+
+                    <div style = font-size:20px; font-weight:bold; margin-left:150px;>
+                       {{ form.name.label }}<br>
+                       {{ form.name }}<br>
+                       {{ form.email.label }}<br>
+                       {{ form.email }}<br>
+                       {{ form.address.label }}<br>
+                       {{ form.address }}<br>
+
+                       {{ form.number_of_room.label }} <br>
+                       {{ form.number_of_room }}<br>
+
+                       {{ form.number_of_bathroom.label }} <br>
+                       {{ form.number_of_bathroom }}<br>
+
+
+                       {{ form.floor_area.label }}<br>
+                       {{ form.floor_area }}<br>
+
+                       <br>
+                       {{ form.submit }}
+                    </div>
+
+                 </fieldset>
+            </form>
+        </div>
+
+
+   </body>
+</html>

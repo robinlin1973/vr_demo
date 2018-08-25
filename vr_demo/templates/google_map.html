@@ -43,103 +43,15 @@
     <link rel="stylesheet" id="ssb-css-css" href="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/css/ssb-style.css" type="text/css" media="all" />
     <link rel="stylesheet" id="WP3D_Models-frontend-css"  href="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/css/wp3d-frontend.css" type="text/css" media="all" />
     <link rel="stylesheet" type="text/css" href="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/css/blog.css">
-
-      <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 70%;
-      }
-      #info {
-        height: 70%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #description {
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-      }
-
-      #infowindow-content .title {
-        font-weight: bold;
-      }
-
-      #infowindow-content {
-        display: none;
-      }
-
-      #map #infowindow-content {
-        display: inline;
-      }
-
-      .pac-card {
-        margin: 10px 10px 0 0;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        background-color: #fff;
-        font-family: Roboto;
-      }
-
-      #pac-container {
-        padding-bottom: 12px;
-        margin-right: 12px;
-      }
-
-      .pac-controls {
-        display: inline-block;
-        padding: 5px 11px;
-      }
-
-      .pac-controls label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
-
-      #pac-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        margin-left: 12px;
-        padding: 0 11px 0 13px;
-        text-overflow: ellipsis;
-        width: 400px;
-        color: black;
-      }
-
-      #pac-input:focus {
-        border-color: #4d90fe;
-      }
-
-      #title {
-        color: #fff;
-        background-color: #4d90fe;
-        font-size: 25px;
-        font-weight: 500;
-        padding: 6px 12px;
-      }
-      #target {
-        width: 345px;
-      }
-      #slides {
-        display:none;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/css/map.css">
 
      <script type="text/javascript">
         if (location.protocol != 'https:' && location.hostname != '127.0.0.1' && location.hostname != '192.168.20.8')
         {
             location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
         }
+
+        var locationString = {{location|tojson}};
 
      </script>
   </head>
@@ -148,230 +60,50 @@
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     </div>
     <div id="map"></div>
-    <div id="info">
-        <div class="w-row">
-            <div class="iso-loaded">
-                <div id="wp3d-models" class="spaces filtering-on" style="position: relative; height: 1200px;">
-                    <div id="post-684" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured arts-culture event-spaces historic travel-hospitality unique" style="position: absolute; left: 0%; top: 0px;">
-                        <div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/90/e1/90e19d18-df4f-4f44-b6a2-98028d754df8/copy_of_iddlafgc7zc_-_3d-modell_-_claudia_berger.jpg?width=1000);">
-                            <div class="featured-icon">
-                                <img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg">
-                            </div>
-                            <div class="featured-circle"></div>
-                            <a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/gCq5iFJrJXG">
-                                <div data-ix="gallery-block-1">
-                                    <div data-ix="gallery-initial" class="gallery-tab-animation-1" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;">
-                                        <div class="gallery-tab">
-                                            <div class="gallery-title">
-                                                <h4>Planetarium Hamburg</h4>
-                                                <div class="gallery-credit">by Claudia Berger on 05/02/2018</div></div>
-                                            <div class="gallery-description">
-                                                <p>The impressive Planetarium is the centrepiece of Hamburg&amp;rsquo;s Stadtpark. Built between 1912 and 1915, the 70 metres tall Planetarium was originally a water tower, designed to be a highly visible, representative landmark. After a 12-month transformation, the Planetarium opened its doors in 1930, making it one of the oldest observatories...</p>
-                                                <div class="uses-tab-cta">Go ›</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div id="post-683" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured real-estate" style="position: absolute; left: 33.3069%; top: 0px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/c1/12/c112cebd-15ad-41d2-9bd5-6e19671081de/y8sorh8yzdy_-_03292018_072803_1_-_eriemultimedia.jpg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/tbQAtKWppCP"><div data-ix="gallery-block-2"><div data-ix="gallery-initial" class="gallery-tab-animation-2" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>Pennsylvania Craftsman Home </h4><div class="gallery-credit">by Gregory Windle on 05/02/2018</div></div><div class="gallery-description"><p>This seamlessly flowing, custom built family home has a carefully crafted mix of old world charm and modern simplicity. This property is a great example of everything a family would want in a gorgeous natural setting. The property is located in Erie, Pennsylvania.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-507" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured architecture-engineering-construction facilities-management" style="position: absolute; left: 66.6138%; top: 0px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/c7/f7/c7f7101c-6d7c-45bd-b243-e46d1a7823fb/a0686701de768a4d2e38bdf9b069d6cec4da9113.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/kJruH91pfim"><div data-ix="gallery-block-3"><div data-ix="gallery-initial" class="gallery-tab-animation-3" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>Seattle Home Under Construction</h4><div class="gallery-credit">by Dave Austin on 08/14/2017</div></div><div class="gallery-description"><p>This Seattle, Washington home was scanned using Matterport before and after its construction was completed. Explore the home before it was finished, and compare it to the finished product.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-375" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured real-estate" style="position: absolute; left: 0%; top: 300px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/10/6e/106e49fb-25d0-41d2-8862-93d5e4aa9966/752e265b2ed7a6a18cd8eae70035dc60761b21a2.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/kLGohTUGsnx"><div data-ix="gallery-block-4"><div data-ix="gallery-initial" class="gallery-tab-animation-4" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>Villa Estrella Mar</h4><div class="gallery-credit">by Info - SCAN.CASA on 01/05/2018</div></div><div class="gallery-description"><p>This resplendent Mexican oceanside villa is rather ravishing. The seven-bedroom property, found in the resort town of Puerto Vallarta, is eight stories tall and has seven gorgeous bedrooms. The beautiful property has a private beach, a custom beachside pool, and even its own elevator.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-356" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured Pro2 real-estate" style="position: absolute; left: 33.3069%; top: 300px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/c2/1b/c21b3270-de6d-4462-bc3f-075a2f21538b/596c243e02fa258cfa866409c6f5f367a327128c.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/Re2dgaSVCRj"><div data-ix="gallery-block-5"><div data-ix="gallery-initial" class="gallery-tab-animation-5" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[Pro2] West Loop Chicago Condo</h4><div class="gallery-credit">by John Smith on 05/31/2017</div></div><div class="gallery-description"><p>This apartment boasts high ceilings, wood floors, and a modern touch. This virtual tour was captured with the Matterport Pro2 3D Camera. Compare with the same space captured with the old Pro camera.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-354" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured Pro2 real-estate" style="position: absolute; left: 66.6138%; top: 300px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/59/f9/59f9132c-a4f6-4045-865d-45522656024f/sidewalk_view.jpg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/pGeppb6sA6D"><div data-ix="gallery-block-6"><div data-ix="gallery-initial" class="gallery-tab-animation-6" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[Pro2] Traditional Family Walkup</h4><div class="gallery-credit">by John Smith on 05/31/2017</div></div><div class="gallery-description"><p>This family home has old-style touches with a beautifully maintained front yard. This virtual tour was shot with the Matterport Pro2 3D Camera. For comparison, take a look at the same house, but shot with the old Pro 3D Camera.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-352" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured Pro2 real-estate" style="position: absolute; left: 0%; top: 600px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/ad/3b/ad3b4aa8-6b6d-4395-82f9-b31c2cb2660d/e1fe1bcf59538de0e92899e1005def0c2c8ce213.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/JGPnGQ6hosj"><div data-ix="gallery-block-7"><div data-ix="gallery-initial" class="gallery-tab-animation-7" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[Pro2] Southern California Luxury Home</h4><div class="gallery-credit">by Acme Realty on 09/26/2017</div></div><div class="gallery-description"><p>This majestic looking home has wood flooring, crown molding, is a great family home. This tour was shot with the Matterport Pro2 3D camera. Compare to the same space scanned with the old Pro camera.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-322" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured commercial-real-estate" style="position: absolute; left: 33.3069%; top: 600px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/bd/8e/bd8e0703-da64-4b26-890c-2c7b96d793f1/86da2f0f6995a3a2cd1e23d6b85e8cb3977539cf.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/PKGi63A7xne"><div data-ix="gallery-block-8"><div data-ix="gallery-initial" class="gallery-tab-animation-8" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>WOTSO WorkSpace</h4><div class="gallery-credit">by The Third Floor on 01/09/2017</div></div><div class="gallery-description"><p>Enjoy going into the office with WOTSO WorkSpaces, a&amp;nbsp;co-working and serviced office space in Neutral Bay, NSW, Australia. WOTSO WorkSpaces provide serviced offices, meeting and event spaces, and open&amp;nbsp;coworking spaces, all on flexible short-term agreements. Take advantage of the two ping pong tables, arcade games, eclectic decor, full kitchens and...</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-320" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models featured architecture-engineering-construction facilities-management" style="position: absolute; left: 66.6138%; top: 600px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/bb/b6/bbb65711-a409-4473-a775-2e78f00d87bb/26da09db97187915a2ce64d9e0286e992d1bfeff.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/93s9v4DBFYo"><div data-ix="gallery-block-9"><div data-ix="gallery-initial" class="gallery-tab-animation-9" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>MEP Room</h4><div class="gallery-credit">by Matterport on 09/15/2016</div></div><div class="gallery-description"><p>Matterport is an all-in-one 3D scanning &amp;amp; reality capture&amp;nbsp;system that allows you to streamline documentation, speed up as-built designs, and collaborate with ease.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-692" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models blk360" style="position: absolute; left: 0%; top: 900px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/57/4e/574e7b39-2423-41ea-92a1-e2f0d0a961f8/08dce3799bed2d93ada0897f18d163d158e28416.jpeg?width=1000);"><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/1dSrFdyz1Yi"><div data-ix="gallery-block-10"><div data-ix="gallery-initial" class="gallery-tab-animation-10" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[BLK 360]Lake Shastina Golf Resort - Weed, CA</h4><div class="gallery-credit">by Jing Fang - Climb Real Estate on 06/08/2018</div></div><div class="gallery-description"><p>This 27 hole golf course is available for sale. Includes Pro Shop, Restaurant, Cart Garage, Maintenance Bldg., Office, 16 Condos and more!</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-691" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models blk360" style="position: absolute; left: 33.3069%; top: 900px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/0f/71/0f710872-9537-4252-b57d-75dc1e6afe4f/6415cbc3327a0c2cafa1bbdb0ab0f2c0d22c7d5e.jpeg?width=1000);"><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/QfVGzPzYUvR"><div data-ix="gallery-block-11"><div data-ix="gallery-initial" class="gallery-tab-animation-11" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[BLK360] Nature Discovery Centre </h4><div class="gallery-credit">by Nature Discovery Centre on 06/08/2018</div></div><div class="gallery-description"><p>The Nature Discovery Centre Thatcham is a nature centre in the town of Thatcham in the county of Berkshire in England. Situated at Thatcham Lake, a flooded gravel quarry near to the Thatcham Reed Beds, the centre has interactive wildlife and natural history displays. There are also a variety of...</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                    <div id="post-690" class="w-col w-col-4 w-col-stack column spaces-item active model-list-wrap all-models blk360" style="position: absolute; left: 66.6138%; top: 900px;"><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/1b/4c/1b4c85fc-e6b7-4ad1-b249-1260412fffdb/34fbcb51a7c7e9e456f0062ea7056c377329042d.jpeg?width=1000);"><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/YeyyyMddZgA"><div data-ix="gallery-block-12"><div data-ix="gallery-initial" class="gallery-tab-animation-12" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[BLK 360] Deanwood Park Golf Club</h4><div class="gallery-credit">by John Bowness on 06/08/2018</div></div><div class="gallery-description"><p>This golf course is in the historic Newbury, United Kingdom. Deanwood Park Golf Club is a treasure in England&amp;rsquo;s most beautiful county. The nine-hole golf course also features yoga and pilates classes. Guests have access to a driving range, a therapy center, and a pro shop.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript">
-
-        var icon = {
-            url:"/static/images/rsz_green-home-icon.png",
-        };
-        var marker;
-
-        function get_para(vars) {
-           return vars
-        }
-
-        function clickMarker(marker,place_id){
-            if(place_id){
-                <!--location.assign("/fetch_vr/" + place_id);-->
-                location.assign("/matterport/JGPnGQ6hosj");
-            }else{
-                alert("no valid place_id")
-            }
-        }
-
-        function placeMarkerAndPanTo(latLng, map) {
-            var marker = new google.maps.Marker({
-                position: latLng,
-                map: map,
-                icon:icon
-            });
-            var geocoder= new google.maps.Geocoder();
-            geocoder.geocode( { 'location': marker.getPosition()}, function(results, status) {
-                if (status == 'OK') {
-                    place_id = JSON.stringify(results[0]["place_id"]);
-                    place_id = place_id.replace(/^"(.*)"$/, '$1');
-                    marker.addListener('click', function(){clickMarker(marker,place_id)});
-                }else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
-        }
-
-        function showLocationButton(map, marker)
-        {
-            var controlDiv = document.createElement('div');
-
-            var firstChild = document.createElement('button');
-            firstChild.style.backgroundColor = '#fff';
-            firstChild.style.border = 'none';
-            firstChild.style.outline = 'none';
-            firstChild.style.width = '28px';
-            firstChild.style.height = '28px';
-            firstChild.style.borderRadius = '2px';
-            firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
-            firstChild.style.cursor = 'pointer';
-            firstChild.style.marginRight = '10px';
-            firstChild.style.padding = '0px';
-            firstChild.title = 'Your Location';
-            controlDiv.appendChild(firstChild);
-
-            var secondChild = document.createElement('div');
-            secondChild.style.margin = '5px';
-            secondChild.style.width = '18px';
-            secondChild.style.height = '18px';
-            secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-1x.png)';
-            secondChild.style.backgroundSize = '180px 18px';
-            secondChild.style.backgroundPosition = '0px 0px';
-            secondChild.style.backgroundRepeat = 'no-repeat';
-            secondChild.id = 'you_location_img';
-            firstChild.appendChild(secondChild);
-
-            google.maps.event.addListener(map, 'dragend', function() {
-                $('#you_location_img').css('background-position', '0px 0px');
-            });
-
-            firstChild.addEventListener('click', function() {
-                var imgX = '0';
-                var animationInterval = setInterval(function(){
-                    if(imgX == '-18') imgX = '0';
-                    else imgX = '-18';
-                    $('#you_location_img').css('background-position', imgX+'px 0px');
-                }, 500);
-                if(navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                        marker.setPosition(latlng);
-                        map.setCenter(latlng);
-                        clearInterval(animationInterval);
-                        $('#you_location_img').css('background-position', '-144px 0px');
-                    });
-                }
-                else{
-                    clearInterval(animationInterval);
-                    $('#you_location_img').css('background-position', '0px 0px');
-                }
-            });
-
-            controlDiv.index = 1;
-            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
-        }
-
-
-        function initAutocomplete(){
-            loc = get_para({{location|tojson}});
-            place_id = loc.place_id;
-            lat = parseFloat(loc.lat);
-            lng = parseFloat(loc.lng);
-            <!--alert("lat"+"lng")-->
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: lat,lng: lng},
-                zoom: 13,
-                mapTypeId: 'roadmap',
-                disableDoubleClickZoom : true
-            });
-
-            var markers = [];
-            // Create the search box and link it to the UI element.
-            var input = document.getElementById('pac-input');
-            var searchBox = new google.maps.places.SearchBox(input);
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-            // Bias the SearchBox results towards current map's viewport.
-                map.addListener('bounds_changed', function() {
-                searchBox.setBounds(map.getBounds());
-            });
-
-            latlng = new google.maps.LatLng(lat, lng);
-            marker = new google.maps.Marker({map: map,icon: icon,title: place_id,position: latlng});
-            markers.push(marker)
-            marker.addListener('click', function(){clickMarker(marker,place_id)})
-
-            map.addListener('dblclick', function(e) {
-                marker.setMap(null);
-                placeMarkerAndPanTo(e.latLng, map);
-                e.stop();
-            });
-
-            showLocationButton(map, marker);
-
-            // Listen for the event fired when the user selects a prediction and retrieve
-            // more details for that place.
-            searchBox.addListener('places_changed', function() {
-              var places = searchBox.getPlaces();
-
-              if (places.length == 0) {
-                return;
-              }
-
-              // Clear out the old markers.
-              markers.forEach(function(marker) {
-                marker.setMap(null);
-              });
-              markers = [];
-
-              // For each place, get the icon, name and location.
-              var bounds = new google.maps.LatLngBounds();
-              places.forEach(function(place) {
-                if (!place.geometry) {
-                  console.log("Returned place contains no geometry");
-                  return;
-                }
-
-                // Create a marker for each place.
-                marker = new google.maps.Marker({
-                  map: map,
-                  icon: icon,
-                  title: place.name,
-                  position: place.geometry.location
-                })
-
-                marker.addListener('click', function(){clickMarker(marker,place.place_id)})
-                markers.push(marker);
-
-                if (place.geometry.viewport) {
-                  // Only geocodes have viewport.
-                  bounds.union(place.geometry.viewport);
-                } else {
-                  bounds.extend(place.geometry.location);
-                }
-              });
-              map.fitBounds(bounds);
-            });
-        }
-
-    </script>
+    <!--<div id="info">-->
+        <!--<div class="w-row">-->
+            <!--<div class="iso-loaded">-->
+                <!--<div id="wp3d-models" class="spaces filtering-on" style="position: relative; height: 1200px;">-->
+                    <!--<div id="post-684" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured arts-culture event-spaces historic travel-hospitality unique" style="position: absolute; left: 0%; top: 0px;">-->
+                        <!--<div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/90/e1/90e19d18-df4f-4f44-b6a2-98028d754df8/copy_of_iddlafgc7zc_-_3d-modell_-_claudia_berger.jpg?width=1000);">-->
+                            <!--<div class="featured-icon">-->
+                                <!--<img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg">-->
+                            <!--</div>-->
+                            <!--<div class="featured-circle"></div>-->
+                            <!--<a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/gCq5iFJrJXG">-->
+                                <!--<div data-ix="gallery-block-1">-->
+                                    <!--<div data-ix="gallery-initial" class="gallery-tab-animation-1" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;">-->
+                                        <!--<div class="gallery-tab">-->
+                                            <!--<div class="gallery-title">-->
+                                                <!--<h4>Planetarium Hamburg</h4>-->
+                                                <!--<div class="gallery-credit">by Claudia Berger on 05/02/2018</div></div>-->
+                                            <!--<div class="gallery-description">-->
+                                                <!--<p>The impressive Planetarium is the centrepiece of Hamburg&amp;rsquo;s Stadtpark. Built between 1912 and 1915, the 70 metres tall Planetarium was originally a water tower, designed to be a highly visible, representative landmark. After a 12-month transformation, the Planetarium opened its doors in 1930, making it one of the oldest observatories...</p>-->
+                                                <!--<div class="uses-tab-cta">Go ›</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div id="post-683" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured real-estate" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/c1/12/c112cebd-15ad-41d2-9bd5-6e19671081de/y8sorh8yzdy_-_03292018_072803_1_-_eriemultimedia.jpg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/tbQAtKWppCP"><div data-ix="gallery-block-2"><div data-ix="gallery-initial" class="gallery-tab-animation-2" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>Pennsylvania Craftsman Home </h4><div class="gallery-credit">by Gregory Windle on 05/02/2018</div></div><div class="gallery-description"><p>This seamlessly flowing, custom built family home has a carefully crafted mix of old world charm and modern simplicity. This property is a great example of everything a family would want in a gorgeous natural setting. The property is located in Erie, Pennsylvania.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-507" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured architecture-engineering-construction facilities-management" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/c7/f7/c7f7101c-6d7c-45bd-b243-e46d1a7823fb/a0686701de768a4d2e38bdf9b069d6cec4da9113.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/kJruH91pfim"><div data-ix="gallery-block-3"><div data-ix="gallery-initial" class="gallery-tab-animation-3" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>Seattle Home Under Construction</h4><div class="gallery-credit">by Dave Austin on 08/14/2017</div></div><div class="gallery-description"><p>This Seattle, Washington home was scanned using Matterport before and after its construction was completed. Explore the home before it was finished, and compare it to the finished product.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-375" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured real-estate" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/10/6e/106e49fb-25d0-41d2-8862-93d5e4aa9966/752e265b2ed7a6a18cd8eae70035dc60761b21a2.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/kLGohTUGsnx"><div data-ix="gallery-block-4"><div data-ix="gallery-initial" class="gallery-tab-animation-4" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>Villa Estrella Mar</h4><div class="gallery-credit">by Info - SCAN.CASA on 01/05/2018</div></div><div class="gallery-description"><p>This resplendent Mexican oceanside villa is rather ravishing. The seven-bedroom property, found in the resort town of Puerto Vallarta, is eight stories tall and has seven gorgeous bedrooms. The beautiful property has a private beach, a custom beachside pool, and even its own elevator.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-356" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured Pro2 real-estate" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/c2/1b/c21b3270-de6d-4462-bc3f-075a2f21538b/596c243e02fa258cfa866409c6f5f367a327128c.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/Re2dgaSVCRj"><div data-ix="gallery-block-5"><div data-ix="gallery-initial" class="gallery-tab-animation-5" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[Pro2] West Loop Chicago Condo</h4><div class="gallery-credit">by John Smith on 05/31/2017</div></div><div class="gallery-description"><p>This apartment boasts high ceilings, wood floors, and a modern touch. This virtual tour was captured with the Matterport Pro2 3D Camera. Compare with the same space captured with the old Pro camera.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-354" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured Pro2 real-estate" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/59/f9/59f9132c-a4f6-4045-865d-45522656024f/sidewalk_view.jpg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/pGeppb6sA6D"><div data-ix="gallery-block-6"><div data-ix="gallery-initial" class="gallery-tab-animation-6" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[Pro2] Traditional Family Walkup</h4><div class="gallery-credit">by John Smith on 05/31/2017</div></div><div class="gallery-description"><p>This family home has old-style touches with a beautifully maintained front yard. This virtual tour was shot with the Matterport Pro2 3D Camera. For comparison, take a look at the same house, but shot with the old Pro 3D Camera.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-352" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured Pro2 real-estate" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/ad/3b/ad3b4aa8-6b6d-4395-82f9-b31c2cb2660d/e1fe1bcf59538de0e92899e1005def0c2c8ce213.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/JGPnGQ6hosj"><div data-ix="gallery-block-7"><div data-ix="gallery-initial" class="gallery-tab-animation-7" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[Pro2] Southern California Luxury Home</h4><div class="gallery-credit">by Acme Realty on 09/26/2017</div></div><div class="gallery-description"><p>This majestic looking home has wood flooring, crown molding, is a great family home. This tour was shot with the Matterport Pro2 3D camera. Compare to the same space scanned with the old Pro camera.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-322" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured commercial-real-estate" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/bd/8e/bd8e0703-da64-4b26-890c-2c7b96d793f1/86da2f0f6995a3a2cd1e23d6b85e8cb3977539cf.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/PKGi63A7xne"><div data-ix="gallery-block-8"><div data-ix="gallery-initial" class="gallery-tab-animation-8" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>WOTSO WorkSpace</h4><div class="gallery-credit">by The Third Floor on 01/09/2017</div></div><div class="gallery-description"><p>Enjoy going into the office with WOTSO WorkSpaces, a&amp;nbsp;co-working and serviced office space in Neutral Bay, NSW, Australia. WOTSO WorkSpaces provide serviced offices, meeting and event spaces, and open&amp;nbsp;coworking spaces, all on flexible short-term agreements. Take advantage of the two ping pong tables, arcade games, eclectic decor, full kitchens and...</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-320" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models featured architecture-engineering-construction facilities-management" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/bb/b6/bbb65711-a409-4473-a775-2e78f00d87bb/26da09db97187915a2ce64d9e0286e992d1bfeff.jpeg?width=1000);"><div class="featured-icon"><img height="48" src="https://static.matterport.com/mp_cms/1.32.3-34-g1f586d5/images/featured-icon.svg"></div><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/93s9v4DBFYo"><div data-ix="gallery-block-9"><div data-ix="gallery-initial" class="gallery-tab-animation-9" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>MEP Room</h4><div class="gallery-credit">by Matterport on 09/15/2016</div></div><div class="gallery-description"><p>Matterport is an all-in-one 3D scanning &amp;amp; reality capture&amp;nbsp;system that allows you to streamline documentation, speed up as-built designs, and collaborate with ease.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-692" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models blk360" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/57/4e/574e7b39-2423-41ea-92a1-e2f0d0a961f8/08dce3799bed2d93ada0897f18d163d158e28416.jpeg?width=1000);"><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/1dSrFdyz1Yi"><div data-ix="gallery-block-10"><div data-ix="gallery-initial" class="gallery-tab-animation-10" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[BLK 360]Lake Shastina Golf Resort - Weed, CA</h4><div class="gallery-credit">by Jing Fang - Climb Real Estate on 06/08/2018</div></div><div class="gallery-description"><p>This 27 hole golf course is available for sale. Includes Pro Shop, Restaurant, Cart Garage, Maintenance Bldg., Office, 16 Condos and more!</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-691" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models blk360" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/0f/71/0f710872-9537-4252-b57d-75dc1e6afe4f/6415cbc3327a0c2cafa1bbdb0ab0f2c0d22c7d5e.jpeg?width=1000);"><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/QfVGzPzYUvR"><div data-ix="gallery-block-11"><div data-ix="gallery-initial" class="gallery-tab-animation-11" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[BLK360] Nature Discovery Centre </h4><div class="gallery-credit">by Nature Discovery Centre on 06/08/2018</div></div><div class="gallery-description"><p>The Nature Discovery Centre Thatcham is a nature centre in the town of Thatcham in the county of Berkshire in England. Situated at Thatcham Lake, a flooded gravel quarry near to the Thatcham Reed Beds, the centre has interactive wildlife and natural history displays. There are also a variety of...</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                    <!--<div id="post-690" class="col-sm-4 col-xs-12 spaces-item active model-list-wrap all-models blk360" ><div class="gallery-block" style="background-image: url(https://static.matterport.com/mp_cms/media/filer_public/1b/4c/1b4c85fc-e6b7-4ad1-b249-1260412fffdb/34fbcb51a7c7e9e456f0062ea7056c377329042d.jpeg?width=1000);"><div class="featured-circle"></div><a class="w-inline-block gallery-overlay" style="transition: border 0.2s ease 0s, opacity 0.2s ease-out 0s;" href="/matterport/YeyyyMddZgA"><div data-ix="gallery-block-12"><div data-ix="gallery-initial" class="gallery-tab-animation-12" style="transform: translateX(0px) translateY(0px); transition: transform 0.2s ease-out 0s;"><div class="gallery-tab"><div class="gallery-title"><h4>[BLK 360] Deanwood Park Golf Club</h4><div class="gallery-credit">by John Bowness on 06/08/2018</div></div><div class="gallery-description"><p>This golf course is in the historic Newbury, United Kingdom. Deanwood Park Golf Club is a treasure in England&amp;rsquo;s most beautiful county. The nine-hole golf course also features yoga and pilates classes. Guests have access to a driving range, a therapy center, and a pro shop.</p><div class="uses-tab-cta">Go ›</div></div></div></div></div></a></div></div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk&libraries=places&callback=initAutocomplete"
          async defer></script>
+    <script type="text/javascript" src="../static/map.js"></script>
   </body>
 </html>
