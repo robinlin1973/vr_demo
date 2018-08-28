@@ -12,6 +12,7 @@ docutils==0.14
 Flask==1.0.2
 Flask-Cors==3.0.3
 flask-googlemaps==0.2.6
+Flask-Login==0.4.1
 flask-mail==0.9.1
 Flask-Mobility==0.1.1
 Flask-WTF==0.14.2
@@ -24,6 +25,9 @@ MarkupSafe==1.0
 numpy==1.14.3
 pprint==0.1
 pycparser==2.18
+pycryptodome==3.6.6
+pycryptodomex==3.6.6
+PyJWT==1.6.4
 pyOpenSSL==18.0.0
 python-dateutil==2.7.3
 requests==2.18.4

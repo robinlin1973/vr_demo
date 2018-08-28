@@ -1,4 +1,5 @@
-
+isVisible = !1;
+clickedAway = !1;
 function isValidEmail(n) {
     var t = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
     return t.test(n)
@@ -212,14 +213,20 @@ function registerclick() {
         Name : 'email',
         Value : email
     };
+    var dataCredit = {
+        Name : 'custom:credit',
+        Value : "0"
+    };
 
     var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
+    var attributeCredit = new AmazonCognitoIdentity.CognitoUserAttribute(dataCredit);
 
     attributeList.push(attributeEmail);
+    attributeList.push(attributeCredit);
 
     userPool.signUp(username, password, attributeList, null, function(err, result){
         if (err) {
-//            alert(JSON.stringify(err));
+            alert(JSON.stringify(err));
             $("#regerrmsg").html(err["message"]);
             $("#diverrorpwd").show();
             return;
@@ -254,10 +261,18 @@ function loginclick() {
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
             var accessToken = result.getAccessToken().getJwtToken();
-//            alert(JSON.stringify(result));
-            window.location.replace("/");
-            /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
-            var idToken = result.idToken.jwtToken;
+            location.reload();
+//            /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer*/
+//            var idToken = result.idToken.jwtToken;
+//            $.post("/validatetoken", {'access_token':accessToken})
+
+//            todo need to check whether the following step is needed
+//            $.get("/validatetoken/"+accessToken)
+//            .done(function (data) {
+//                if(data=="True"){
+//                    location.reload();
+//                }
+//            });
         },
 
         onFailure: function(err) {
@@ -269,23 +284,92 @@ function loginclick() {
     });
 }
 
-function setUserName(){
+function update_credit(top_value) {
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
+
+    var attributeList = [];
+//    var top_value = $(".credit-amount").val();
 
     if (cognitoUser != null) {
         cognitoUser.getSession(function(err, session) {
             if (err) {
-                alert(err);
+                alert(JSON.stringify(err));
                 return;
             }
-            console.log(cognitoUser.signInUserSession.accessToken.jwtToken);
-            $('#profile').replaceWith(cognitoUser.username);
+            cognitoUser.getUserAttributes(function(err, result) {
+                if (err) {
+                    alert(JSON.stringify(err));
+                    return;
+                }
+                for (i = 0; i < result.length; i++) {
+                    if (result[i].getName() == "custom:credit")  {
+                        balance = result[i].getValue();
+                        var value = parseInt(top_value)+parseInt(balance);
+                        var dataCredit = {
+                            Name : 'custom:credit',
+                            Value : value.toString()
+                        };
+                        var attributeCredit = new AmazonCognitoIdentity.CognitoUserAttribute(dataCredit);
+
+                        attributeList.push(attributeCredit);
+
+                        cognitoUser.updateAttributes(attributeList, function(err, result) {
+                            if (err) {
+                                alert('update credit failed: '+JSON.stringify(err));
+                                return;
+                            }
+                            cognitoUser.getUserAttributes(function(err, result) {
+                                if (err) {
+                                    alert(JSON.stringify(err));
+                                    return;
+                                }
+                                for (i = 0; i < result.length; i++) {
+                                    if (result[i].getName() == "custom:credit")  {
+                                        $('#credit-balance').html(result[i].getValue());
+//                                        alert(JSON.stringfy($('input#amount')));
+                                        $('.credit-amount').val('');
+                                        return
+                                    }
+                                }
+                            });
+                        });
+
+                        return
+                    }
+                }
+            });
         });
     }
 }
 
-function getUserName(){
+function show_balance(){
+    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    var cognitoUser = userPool.getCurrentUser();
+
+    if (cognitoUser != null) {
+        cognitoUser.getSession(function(err, session) {
+            if (err) {
+                alert(JSON.stringify(err));
+            }
+
+            cognitoUser.getUserAttributes(function(err, result) {
+                if (err) {
+                    alert(JSON.stringify(err));
+                }
+
+                for (i = 0; i < result.length; i++) {
+                    if (result[i].getName() == "custom:credit"){
+                        $('#credit-balance').html(result[i].getValue());
+                    }
+                }
+
+            });
+        });
+    }
+}
+
+function showUserName(){
     var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     var cognitoUser = userPool.getCurrentUser();
 
@@ -295,7 +379,8 @@ function getUserName(){
                 alert(err);
                 return;
             }
-            console.log(cognitoUser.signInUserSession.accessToken.jwtToken);
+//            console.log(JSON.stringify(cognitoUser));
+//            console.log(cognitoUser.signInUserSession.accessToken.jwtToken);
             $('#profile').replaceWith(cognitoUser.username);
             $('#sign').replaceWith("");
             return cognitoUser.username;

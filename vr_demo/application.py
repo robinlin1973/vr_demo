@@ -1,6 +1,6 @@
 # coding: utf-8
-
-from flask import Flask, render_template,url_for,redirect,request,make_response,flash,jsonify
+from functools import wraps
+from flask import Flask, render_template,url_for,redirect,request,make_response,flash,jsonify,g
 import boto3
 from flask_mobility import Mobility
 from flask_mobility.decorators import mobile_template,mobilized
@@ -9,6 +9,18 @@ from wtforms import StringField, IntegerField, TextAreaField, SubmitField, Radio
 from wtforms import validators, ValidationError
 from flask_mail import Mail,  Message
 import json
+import jwt
+from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
+import stripe
+import os
+import pprint
+
+# use the stripe keys to handle the payment
+stripe_keys = {
+  'secret_key': os.getenv('SECRET_KEY'),
+  'publishable_key': os.getenv('PUBLISHABLE_KEY')
+}
+stripe.api_key = stripe_keys['secret_key']
 
 application = Flask(__name__, template_folder="templates")
 application.secret_key = 'development key'
@@ -17,7 +29,6 @@ s3 = boto3.resource('s3')
 s3_bucket_name = 'vr-content'
 vr_s3_folder = 'https://s3.us-east-2.amazonaws.com/vr-content/'
 bucket = s3.Bucket(s3_bucket_name)
-
 
 class ContactForm(FlaskForm):
     name = StringField("Contact")
@@ -40,6 +51,9 @@ class ContactForm(FlaskForm):
                                                ('no preference','no preference')])
     submit = SubmitField("Submit Request")
 
+class CreditForm(FlaskForm):
+    subscribe_amount = StringField("Topup Amount($NZD):")
+    submit = SubmitField("Credit Account")
 
 mail_settings = {
     "MAIL_SERVER": 'smtp.gmail.com',
@@ -49,9 +63,32 @@ mail_settings = {
     "MAIL_USERNAME": 'abinlaa@gmail.com',
     "MAIL_PASSWORD": 'Sp-3308897'
 }
+pem = '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh3pj5bpRO8AceRRe8QXn\n3p0Il0G+Mfky4UyuhtPQHCbcLnQIi8JL2v0qAgf41GaW8+sCylpmKdyVCbG20yde\nRpIBzw6+Ni2J4/MBuL5WAwwqhNIjPjNZxzVkGG/fYY5cPNXSsET1HzWAai/kU9DV\n2KLetvUQFzcJtmZWKvQ6SDD8AQo4wUAm/HqSQ66bFanKEvNaqwAGH95SFKgqdT9b\n0ZEZZzG0QBjlx8fpQPIdwJqhduBjQBv9KBNNDHXVNSOIe9ZFFWJ/NBURRp+H+6xa\nL8lGU6/MRFv4OwPYn5kLVuSj/Tm1wNegDcpGNcjuBZ4fyDe7sAvA1g4RJZ0Vdln2\neQIDAQAB\n-----END PUBLIC KEY-----\n'
 
 application.config.update(mail_settings)
 mail = Mail(application)
+
+# use PEM to validate the token
+def is_token_valid(token):
+    try:
+        decoded_token = jwt.decode(token, pem, algorithms=['RS256'])
+        iss = 'https://cognito-idp.us-east-2.amazonaws.com/us-east-2_kRoPjEqA4'
+        if decoded_token['iss'] != iss:
+            return False
+        elif decoded_token['token_use'] != 'access':
+            return False
+        return True
+    except Exception:
+        return False
+#
+def validate_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if kwargs['token'] == None or is_token_valid(kwargs['token'])==False:
+            return print("invalide token, need to login")
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @application.route("/fetch_vr/<string:place_id>")
 def fetch_vr(place_id):
@@ -87,36 +124,38 @@ def contact():
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
 
-
-
 @application.route("/price")
 def price():
     return render_template('price.html')
 
+# @application.route("/credit",methods = ['GET', 'POST'])
+# def credit_account():
+#     form = CreditForm()
+#     return render_template('credit.html', form=form)
 
-# @application.route("/quotation", methods = ['GET', 'POST'])
-# def quotation():
-#     form = ContactForm()
-#     if request.method == 'POST':
-#         if form.validate() == False:
-#             flash('All fields are required.')
-#             return render_template('quotation.html', form=form)
-#         else:
-#             with application.app_context():
-#                 msg = Message(subject="Quotation Received"+form.data['address'],
-#                               sender=application.config.get("MAIL_USERNAME"),
-#                               recipients=[form.data['email']],  # replace with your email for testing
-#                               body=json.dumps(form.data))
-#                 mail.send(msg)
-#             flash('Quote request received, We will contact you shortly!')
-#             return redirect("/", code=302)
-#     elif request.method == 'GET':
-#         return render_template('quotation.html', form=form)
+@application.route("/credit",methods=['GET','POST'])
+def topup():
+    form = CreditForm()
+    if request.method == 'POST':
+        pprint.pprint(request.form)
+
+        token = request.form['id']  # Using Flask
+        amount = request.form['amount']
+        charge = stripe.Charge.create(
+            amount= amount,
+            currency='nzd',
+            description='vr 360 service fee',
+            source=token,
+        )  # todo how to know charge is success?
+        return amount
+    else:
+        return render_template("credit.html",form=form, key=stripe_keys['publishable_key'])
 
 # @mobile_template('{mobile/}index.html')
 def show_homepage():
     return render_template("home.html")
 
+@application.route('/index')
 @application.route("/",methods=['GET', 'POST'])
 @mobilized(show_homepage)
 def show_homepage():
@@ -143,23 +182,6 @@ def show_map():
 def matterport(name):
     return render_template("3dspace.html",name=name)
 
-#
-# @application.route("/panotour",methods=['GET', 'POST'])
-# def panotour():
-#     return render_template("panotour.html")
-
-# @application.route("/d3vista",methods=['GET', 'POST'])
-# def d3vista():
-#     return redirect("https://www.3dvista.com/samples/real_estate_virtual_tour.html", code=302)
-
-# @application.route("/faq")
-# def faq():
-#     return render_template("faq.html")
-#
-# @application.route("/about")
-# def about():
-#     return render_template("about.html")
-
 @application.route("/map")
 def map():
     place_id = request.args.get('place_id','ChIJJdxLbfBHDW0Rh5OtgMO10QI')
@@ -183,14 +205,38 @@ def ip():
     return jsonify(str(request.__dict__))
 
 
-@application.route("/signup",methods=['POST'])
-def signup():
-    print("received signup info")
-    return redirect(request.referrer)
+# @application.route("/validatetoken",methods=['POST'])
+# def validatetoken():
+#     access_token = request.form['access_token']
+#     # print(is_token_valid(access_token))
+#     if is_token_valid(access_token):
+#         return "True"
+#     else:
+#         return "False"
 
-# @application.route("/test")
-# def test():
-#     return render_template("sign.html")
+
+@application.route("/validatetoken/<token>")
+@validate_required
+def validatetoken(token):
+    return "True"
+
+@application.route("/payment",methods=['GET','POST'])
+def clearPayment():
+    form = CreditForm()
+    if request.method == 'POST':
+        pprint.pprint(request.form)
+
+        token = request.form['id']  # Using Flask
+        amount = request.form['amount']
+        charge = stripe.Charge.create(
+            amount= amount,
+            currency='nzd',
+            description='vr 360 service fee',
+            source=token,
+        )  # todo how to know charge is success?
+        return amount
+    else:
+        return render_template("payment.html",form=form, key=stripe_keys['publishable_key'])
 
 
 if __name__ == "__main__":

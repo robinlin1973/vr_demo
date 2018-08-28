@@ -81,12 +81,18 @@
             <script src="../static/js1/jquery.cubeportfolio.min.js"></script>
             <script src="../static/js1/functions.js"></script>
             <script src="../static/js1/aws-cognito-sdk.js"></script>
-            <script src="../static/js1/amazon-cognito-auth.js"></script>
+            <!--<script src="../static/js1/amazon-cognito-auth.js"></script>-->
             <script src="../static/js1/amazon-cognito-identity.js"></script>
             <script src="../static/js1/signinout.js"></script>
             <script>
-                $(document).ready(getUserName);
+                $(document).ready(showUserName);
             </script>
         {% endblock %}
+
+
+        {% block extrascript %}
+
+        {% endblock %}
+
     </body>
 </html>

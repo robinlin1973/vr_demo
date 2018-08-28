@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+{% block title %}VR 360 Clear Payment | Matterport Service Partner{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="Description" content="Matterport 3D virtual tours contact in Auckland,New Zealand">
+    <meta name="Keywords" content="Matterport Auckland, 3d tour, Auckland 3d photographer, matterport in Auckland">
+{% endblock %}
+{% block content %}
+    {{ super() }}
+    <a href="#" class="scrollToTop"><i class="fa fa-angle-up"></i></a>
+    <!--Loader-->
+    <div class="loader">
+      <div class="satellite"></div>
+      <p class="title-loader">Loading ...</p>
+    </div>
+
+    <!--Page Header-->
+    <section class="page_header padding-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center page-content">
+            <h1>Clear the Payment</h1>
+            <div class="page_nav">
+          <span>You are here:</span> <a href="/">Home</a> <span><i class="fa fa-angle-double-right"></i>Credit</span>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--Contact Deatils SECTION-->
+    <section id="contact" class="padding">
+      <div class="container">
+        <div class="row padding-bottom">
+            <div class="col-md-4 contact_address heading_space">
+                <h2 class="heading heading_space">Get in Touch <span class="divider-left"></span></h2>
+                <p></p>
+
+                <div class="address">
+                    <i class="icon icon-mail"></i>
+                    <h4>Email Us</h4>
+                    <p><a href="mailto:test@hotmail.com">Email</a></p>
+                </div>
+                <div class="address">
+                    <i class="icon icon-phone4"></i>
+                    <h4>Robin</h4>
+                    <p>XXX-XXX-XXXX</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                    <ul class=flashes>
+                        {% for message in messages %}
+                          <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                  {% endif %}
+                {% endwith %}
+
+                <form class="form-group" id="subscribe-form">
+                <fieldset>
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.subscribe_amount.label }}<br>
+                        {{ form.subscribe_amount(class="form-control credit-amount") }}<br>
+                    </div>
+                    <br>
+                        {{ form.submit }}
+                </fieldset>
+                </form>
+            </div>
+
+        </div>
+      </div>>
+    </section>
+{% endblock %}
+
+{% block extrascript %}
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script>
+        var amount;// = $('input.credit-amount').val()*100;
+
+        var handler = StripeCheckout.configure({
+            key: '{{key}}',
+            image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+            locale: 'auto',
+            token: function(token) {
+            // You can access the token ID with `token.id`.
+            // Get the token ID to your server-side code for use.
+                token['amount'] = amount;
+                $.post("/payment",token)
+                .done(function(result) {
+                    alert( parseFloat(result)/100+"NZD charged,Thank you for your payment" );
+                })
+                .fail(function() {
+                    alert( "payment error try again" );
+                });
+            }
+        });
+
+        $('input#submit').on('click', function(e) {
+            amount = $('input.credit-amount').val()*100;
+            // Open Checkout with further options:
+            handler.open({
+                name: 'Doseehouse',
+                description: 'vr 360 service fee',
+                currency: 'nzd',
+                amount: amount
+                });
+            e.preventDefault();
+        });
+
+        // Close Checkout on page navigation:
+        window.addEventListener('popstate', function() {
+            handler.close();
+        });
+
+    </script>
+{% endblock %}
