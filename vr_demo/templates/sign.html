@@ -1,0 +1,223 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}VR 360 Contact | Matterport Service Partner{% endblock %}
+{% block head %}
+    {{ super() }}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="Description" content="Matterport 3D virtual tours contact in Auckland,New Zealand">
+    <meta name="Keywords" content="Matterport Auckland, 3d tour, Auckland 3d photographer, matterport in Auckland">
+{% endblock %}
+{% block content %}
+    <a href="#" class="scrollToTop"><i class="fa fa-angle-up"></i></a>
+    <!--Loader-->
+    <div class="loader">
+      <div class="satellite"></div>
+      <p class="title-loader">Loading ...</p>
+    </div>
+
+    <!--Contact Deatils SECTION-->
+    <section id="contact" class="padding">
+      <div class="container">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="modal-content">
+                    <div id="loginregscreen" class="panel-login">
+
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <a href="#" class="active" id="login-form-link">
+                                        登录
+                                    </a>
+                                </div>
+                                <div class="col-xs-6">
+                                    <a href="#" id="register-form-link">
+                                        注册
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="panel-body">
+                            {% with messages = get_flashed_messages() %}
+                              {% if messages %}
+                                <ul class="flashes border">
+                                    {% for message in messages %}
+                                      <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                              {% endif %}
+                            {% endwith %}
+
+                            <div id="login-form" class="regscreen" style="display: block;">
+                                <!--=================================================================================================-->
+                                <form class="form-signin" method="POST" action="{{ url_for('sign', next=request.args.get('next')) }}">
+                                    {{ signinform.hidden_tag() }}
+                                    <div class="alert alert-danger" id="diverrorlogin" role="alert" style="display: none">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">
+                                            注册:
+                                        </span>
+                                        <span id="loginerrmsg"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        {{ wtf.form_field(signinform.username) }}
+                                    </div>
+                                    <div class="form-group">
+                                        {{ wtf.form_field(signinform.password) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <!--<div class="row">-->
+                                            <!--<div class="col-md-6 col-md-offset-3">-->
+                                                <button id= "signin_submit" type="submit" class="form-control btn btn-login" tabindex="4" name="btn" value="Signin">
+                                                    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none" ></span>
+                                                    <span class="icon glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                                                    Signin
+                                                </button>
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div id="partLogin1_pnlfblogin" class="form-group">-->
+                                        <!--<input type="submit" class="form-control btn btn-login" name="btn" value="Signin">-->
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-3">
+                                                <button type="submit" class="form-control btn btn-login-forgot" tabindex="5" onclick="return forgetclick();">
+                                                    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingForgot" style="display: none"></span>
+                                                    忘记密码?
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--=================================================================================================-->
+                            </div>
+                            <div id="register-form" class="regscreen" style="display: none;">
+                                    <form class="form-signup" method="POST" action="/sign">
+                                        {{ signupform.hidden_tag() }}
+                                        <div class="alert alert-danger" id="diverrorpwd" role="alert" style="display: none">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                            <span class="sr-only">
+                                                注册:
+                                            </span>
+                                            <span id="regerrmsg"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            {{ wtf.form_field(signupform.username) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ wtf.form_field(signupform.email) }}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ wtf.form_field(signupform.password) }}
+                                        </div>
+
+                                        <div class="checkboxes" style="padding-bottom: 10px;">
+                                            <label for="chxcheckagree">
+                                                <!--<input type="checkbox" id="chxcheckagree" class="no-icheck">-->
+                                                {{ wtf.form_field(signupform.agreement,id="chxcheckagree" ) }}
+                                                <span>
+                                                    阅读并接受
+                                                    <a href="/Pages/legalterms" target="_blank">
+                                                        使用条款</a>,<a href="/Pages/privacy" target="_blank">隐私条款</a>.
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" class="form-control btn btn-login" name="btn" value="Signup">
+                                            <!--<div class="row">-->
+                                                <!--<div class="col-sm-6 col-sm-offset-3">-->
+                                                    <!--<button id="btnregbuttonloginmodel" type="submit" class="form-control btn btn-register" tabindex="4">-->
+                                                        <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none"></span>-->
+                                                        <!--<span class="icon glyphicon glyphicon-registration-mark" aria-hidden="true"></span>-->
+                                                        <!--现在注册-->
+                                                    <!--</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        </div>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pnlRegistered" class="panel panel-default" style="display: none">
+                        <div class="panel-heading panel-success">
+                            注册成功
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-success center-block" onclick="javacript:location.reload();">
+                                登入系统
+                            </button>
+                        </div>
+                    </div>
+                    <div id="pnlRegisteredActivate" class="panel panel-default panelnoborder" style="display: none">
+                        <div class="panel-heading panel-success">
+                            注册成功，请等待激活Email
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" id="btnResendVerify" class="btn btn-default center-block" onclick="javacript:resendverifyclick();">
+                                Email 没收到? 再次发送
+                            </button>
+                            <button type="button" class="btn btn-success center-block" onclick="javacript:location.reload();" style="margin-top: 15px">
+                                已经激活了?登入系统
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+    </section>
+{% endblock %}
+
+{% block extrascript %}
+    <script>
+        $(document).ready(function(){
+            var active_panel = localStorage.getItem("active_panel");
+
+            if(active_panel == "register-form-link")
+            {
+                $("#register-form").delay(100).fadeIn(100);
+                $("#login-form").fadeOut(100);
+                $("#login-form-link").removeClass("active");
+                $("#register-form-link").addClass("active");
+                n.preventDefault()
+            }else{
+                $("#login-form").delay(100).fadeIn(100);
+                $("#register-form").fadeOut(100);
+                $("#register-form-link").removeClass("active");
+                $("#login-form-link").addClass("active");
+                n.preventDefault()
+            }
+
+            $(".loadingReg").hide();
+        });
+
+        $("#login-form-link").click(function(n) {
+            localStorage.setItem("active_panel","login-form-link");
+            $('.flashes').fadeOut();
+            $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+            $("#register-form-link").removeClass("active");
+            $(this).addClass("active");
+            n.preventDefault()
+        });
+
+        $("#register-form-link").click(function(n) {
+            localStorage.setItem("active_panel","register-form-link");
+            $('.flashes').fadeOut();
+            $("#register-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $("#login-form-link").removeClass("active");
+            $(this).addClass("active");
+            n.preventDefault()
+        });
+
+        $("#signin_submit").click(function(){
+            $(".loadingReg").show();
+            return True;
+        });
+    </script>
+{% endblock %}

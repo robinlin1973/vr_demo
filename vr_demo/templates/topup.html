@@ -9,7 +9,6 @@
     <meta name="Keywords" content="Matterport Auckland, 3d tour, Auckland 3d photographer, matterport in Auckland">
 {% endblock %}
 {% block content %}
-    {{ super() }}
     <a href="#" class="scrollToTop"><i class="fa fa-angle-up"></i></a>
     <!--Loader-->
     <div class="loader">
@@ -52,23 +51,12 @@
                 </div>
             </div>
             <div class="col-md-4">
-            <h2 class="heading heading_space">Current balance:<span id="credit-balance"></span></h2>
+            <h2 class="heading heading_space">Current balance:<span>{{ current_user.credit }}</span></h2>
                 <ul>
-                    <li> - card numbers - 4242 4242 4242 4242</li>
-                    <li> - Any three-digit CVC code</li>
-                    <li> - Any expiration date in the future</li>
+                    <li> Test card # 4242 4242 4242 4242;Any three-digit CVC;Any expiration date in the future</li>
                 </ul>
                 <br>
 
-                {% with messages = get_flashed_messages() %}
-                  {% if messages %}
-                    <ul class=flashes>
-                        {% for message in messages %}
-                          <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                  {% endif %}
-                {% endwith %}
                 <form class="form-group">
                 <fieldset>
                     {{ form.hidden_tag() }}
@@ -81,6 +69,7 @@
                 </fieldset>
                 </form>
             </div>
+
         </div>
       </div>>
     </section>
@@ -91,9 +80,8 @@
 {% block extrascript %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script>
-        $(document).ready(show_balance);
 
-        var amount;// = $('input.credit-amount').val()*100;
+        var amount;//= $('input.credit-amount').val()*100;
 
         var handler = StripeCheckout.configure({
             key: '{{key}}',
@@ -103,20 +91,19 @@
             // You can access the token ID with `token.id`.
             // Get the token ID to your server-side code for use.
                 token['amount'] = amount;
-                $.post("/payment",token)
-                .done(function(result) {
-                    topup_amount = parseFloat(result)/100;
-                    console.log("topup_amount type:"+typeof(topup_amount)+" value is:"+topup_amount);
-                    alert( topup_amount +"NZD charged,Thank you for your payment" );
-                    update_credit(topup_amount);
-                })
-                .fail(function() {
-                    alert( "payment error try again" );
+                $.post("/topup",token)
+                .done(function(msg) {
+                    alert(msg);
+                    window.location.reload();
                 });
+                <!--.fail(function() {-->
+                    <!--alert( "payment error try again" );-->
+                <!--});-->
             }
         });
 
         $('input#submit').on('click', function(e) {
+            <!--alert("start to charge");-->
             amount = $('input.credit-amount').val()*100;
             // Open Checkout with further options:
             handler.open({

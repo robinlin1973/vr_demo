@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+	VR 示房网
+    </title><meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#2e2e1f" />
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#2e2e1f" />
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2e2e1f" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="robots" content="INDEX, FOLLOW" />
+    <link rel="icon" href="../static/images/Software 3D.png" />
+    <link href="../static/css/Fonts.css" rel="stylesheet" />
+	<link href="../static/css/css0.css" rel="stylesheet"/>
+	<link href="../static/css/css1.css" rel="stylesheet"/>
+	<link href="../static/css/style.css"  rel="stylesheet"/>
+	<link href="../static/css/css2.css"  rel="stylesheet"/>
+	<link href="../static/css/style2.css"  rel="stylesheet"/>
+	<link rel="shortcut icon" href="#">
+    <!--<script  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="-->
+        <!--crossorigin="anonymous"></script>-->
+    <!--<script>-->
+        <!--$(function(){-->
+            <!--$("#includedMap").load("showmap");-->
+        <!--});-->
+    <!--</script>-->
+</head>
+<body style="height:100%">
+    <div data-spy="scroll" data-offset="80">
+        <div class="navbar navbar-default navbar-fixed-top menu-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="navbar-toggle">
+                        <span class="lnkdisplayname" style="display: none">
+                            <a class="btn btn-default loginpopover" style="color: white" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true">
+                                <span class="displayuname"></span>
+                            </a>
+                        </span>
+                    </div>
+
+                    <div>
+                        <a href="/" class="navbar-brand">
+                            <img id="imglogoSVG" src="../static/images/vr_phone.png" alt="logo" width="52" height="52" />
+                        </a>
+                        <span>
+                            <a class="lnkswitchlangheader label label-success linktakeen" href="javascript:setLangforce(0);" style="display: none;">English</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <nav>
+                        <div class="nav navbar-nav navbar-right homeloginbtn" style="padding-top: 5px;">
+                            <span class="lnkdisplayname" style="display: none">
+                                <a class="btn btn-default loginpopover" style="color: white" data-toggle="popover" data-container="body" data-placement="bottom" data-html="true">
+                                    <span class="displayuname"></span>
+                                </a>
+                            </span>
+                        </div>
+                        <ul class="nav navbar-nav navbar-center">
+                            <li>
+                                <!--<a class="page-scroll" href="/vrservice" style="font-size: 30px; text-decoration: none">-->
+                                    <!--VR Service Introduction-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <li>
+                                <a class="page-scroll" href="/price" style="font-size: 30px; text-decoration: none">
+                                    Service
+                                </a>
+                            </li>
+                             <li>
+                                <a class="page-scroll" href="/contact" style="font-size: 30px; text-decoration: none">
+                                    Contact
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <section id="home" class="welcome-area">
+            <div class="welcome-slider-area">
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div class="single-slide-item slide-1">
+                            <div class="single-slide-item-table">
+                                <div class="single-slide-item-tablecell">
+                                    <div class="container searchcontainer">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h2>
+                                                      {% with messages = get_flashed_messages() %}
+                                                          {% if messages %}
+                                                            <ul class=flashes>
+                                                                {% for message in messages %}
+                                                                  <li>{{ message }}</li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                          {% endif %}
+                                                      {% endwith %}
+                                                </h2>
+                                                <h2>
+                                                    Property VR
+                                                </h2>
+                                                <div id="addrsearchbox" class="form-submit">
+                                                    <div class="search">
+                                                        <div class="col-md-2  col-sm-0">
+                                                        </div>
+                                                        <div id="asearchbox" class="col-md-8 col-sm-12">
+                                                            <div class="input-group">
+                                                                <span id="loaderindicator" class="input-group-addon">
+                                                                    <i id="homesearcharrow" class="fa fa-globe" style="padding-top: 5px;"></i>
+                                                                    <i id="homesearchloading" class="fa fa-cog fa-spin fa-fw" style="display: none;"></i>
+                                                                </span>
+                                                                <input name="ctl00$ContentPlaceHolderContents$search_field" type="text" id="search_field" class="form-control focusedInput searchAddr" placeholder="Input property address" aria-label="Input property address" />
+                                                                <span class="input-group-addon">
+                                                                    <button type="submit" id="btnfindprop" class="btn" onclick="findbtnclicking();return false;">
+                                                                        <span id="loadingglyph" class="glyphicon glyphicon-refresh glyphicon-refresh-animate" style="display: none"></span>
+                                                                        
+                                                                        <i id="searchglyph" class="glyphicon glyphicon-search"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                            <div class="vr-geolocate">
+                                                                <span class="navtext">
+                                                                    
+                                                                </span>
+                                                                <a href="/showmap?place_id=ChIJJdxLbfBHDW0Rh5OtgMO10QI&lat=-36.848448&lng=174.76219100000003" class="btn btn-success"><span class="glyphicon fa fa-location-arrow"></span>Google-Map</a>
+                                                                <a id="ContentPlaceHolderContents_RepeaterSuburbs_lnksuburb_0" class="btn btn-default" href="/showmap?place_id=ChIJy3TpSfyxOG0RcLQTomPvAAo&lat=-41.2864603&lng=174.77623600000004">Wellington</a>
+                                                                <a id="ContentPlaceHolderContents_RepeaterSuburbs_lnksuburb_1" class="btn btn-default" href="/showmap?place_id=ChIJAe3FY0gvMm0RRZl5hIbvAAU&lat=-43.53205440000001&lng=172.63622540000006">Christchurch</a>
+                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div id="includedMap"></div>-->
+        </section>
+
+        <script>
+    var place;
+    function initMap() {
+        var input = document.getElementById('search_field');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.setComponentRestrictions(
+            {'country': ['nz']});
+
+        autocomplete.addListener('place_changed', function() {
+          place = autocomplete.getPlace();
+          if (!place.geometry) {
+            return;
+          }
+        });
+    }
+
+    function findbtnclicking(){
+
+        if(place){
+            place_id = place.place_id;
+            lat = place.geometry.location.lat();
+            lng = place.geometry.location.lng()
+            <!--alert('place-name '+ place.name+' place-id '+ place_id+' lat '+ lat+ ' lng '+ lng);-->
+            location.assign("/showmap?" + "place_id="+ place.place_id+"&lat="+lat+"&lng="+lng);
+        }else{
+            alert("not a valid place")
+        }
+    }
+    </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzYP5Mc8G1jo9UPdLI9b49tyJyfZFXnzk&libraries=places&callback=initMap"
+            async defer></script>
+    </div>
+</body>
+</html>

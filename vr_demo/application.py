@@ -1,59 +1,36 @@
 # coding: utf-8
 from functools import wraps
-from flask import Flask, render_template,url_for,redirect,request,make_response,flash,jsonify,g
-import boto3
-from flask_mobility import Mobility
-from flask_mobility.decorators import mobile_template,mobilized
-from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, TextAreaField, SubmitField, RadioField,SelectField
-from wtforms import validators, ValidationError
-from flask_mail import Mail,  Message
+from flask import Flask, render_template,url_for,redirect,request,flash,session,jsonify,make_response
+from flask_mail import Mail,Message
 import json
-import jwt
-from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
 import stripe
 import os
 import pprint
+from support import ContactForm,CreditForm,SigninForm, SignupForm,User
+from flask_bootstrap import Bootstrap
+from warrant import Cognito
+import cognitojwt
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from datetime import datetime
 
 # use the stripe keys to handle the payment
 stripe_keys = {
   'secret_key': os.getenv('SECRET_KEY'),
   'publishable_key': os.getenv('PUBLISHABLE_KEY')
 }
+pem = os.getenv('PEM')    #todo add to production envrionment path
 stripe.api_key = stripe_keys['secret_key']
-
 application = Flask(__name__, template_folder="templates")
-application.secret_key = 'development key'
-Mobility(application)
-s3 = boto3.resource('s3')
-s3_bucket_name = 'vr-content'
-vr_s3_folder = 'https://s3.us-east-2.amazonaws.com/vr-content/'
-bucket = s3.Bucket(s3_bucket_name)
+login_manager = LoginManager()
+login_manager.init_app(application)
+login_manager.login_view = 'sign'
+application.secret_key = os.getenv('APP_SECRET_KEY') #todo add to production envrionment path
 
-class ContactForm(FlaskForm):
-    name = StringField("Contact")
-    email = StringField("Email")
-    phone = StringField("Phone")
-    size = SelectField('Size of Space', choices=[('200 sq.m. or less ', '200 sq.m. or less'),
-                                                 ('200-500 sq.m.', '200-500 sq.m.'),
-                                                 ('> 500 sq.m.', '> 500 sq.m.'),
-                                                 ('> 1000 sq.m.', '> 1000 sq.m.')])
-    type = SelectField('Property Type', choices=[('Single Family ','Single Family'),
-                                                 ('Condo','Condo'),
-                                                 ('Commercial','Commercial'),
-                                                 ('Retail','Retail'),
-                                                 ('Boat','Boat'),
-                                                 ('Aircraft','Aircraft')])
-    date = SelectField('Date Needed', choices=[('1-2 days ','1-2 days'),
-                                               ('1-4 days','1-4 days'),
-                                               ('1-7 days','1-7 days'),
-                                               ('7-14 days','7-14 days'),
-                                               ('no preference','no preference')])
-    submit = SubmitField("Submit Request")
+cognito_userpool_id = os.getenv('COGNITO_USERPOOL_ID')#todo add to production envrionment path
+cognito_userpool_region = os.getenv('COGNITO_USERPOOL_REGION')#todo add to production envrionment path
+cognito_client_id = os.getenv('COGNITO_CLIENT_ID') #todo add to production envrionment path
 
-class CreditForm(FlaskForm):
-    subscribe_amount = StringField("Topup Amount($NZD):")
-    submit = SubmitField("Credit Account")
+
 
 mail_settings = {
     "MAIL_SERVER": 'smtp.gmail.com',
@@ -63,50 +40,49 @@ mail_settings = {
     "MAIL_USERNAME": 'abinlaa@gmail.com',
     "MAIL_PASSWORD": 'Sp-3308897'
 }
-pem = '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh3pj5bpRO8AceRRe8QXn\n3p0Il0G+Mfky4UyuhtPQHCbcLnQIi8JL2v0qAgf41GaW8+sCylpmKdyVCbG20yde\nRpIBzw6+Ni2J4/MBuL5WAwwqhNIjPjNZxzVkGG/fYY5cPNXSsET1HzWAai/kU9DV\n2KLetvUQFzcJtmZWKvQ6SDD8AQo4wUAm/HqSQ66bFanKEvNaqwAGH95SFKgqdT9b\n0ZEZZzG0QBjlx8fpQPIdwJqhduBjQBv9KBNNDHXVNSOIe9ZFFWJ/NBURRp+H+6xa\nL8lGU6/MRFv4OwPYn5kLVuSj/Tm1wNegDcpGNcjuBZ4fyDe7sAvA1g4RJZ0Vdln2\neQIDAQAB\n-----END PUBLIC KEY-----\n'
 
 application.config.update(mail_settings)
 mail = Mail(application)
-
-# use PEM to validate the token
-def is_token_valid(token):
-    try:
-        decoded_token = jwt.decode(token, pem, algorithms=['RS256'])
-        iss = 'https://cognito-idp.us-east-2.amazonaws.com/us-east-2_kRoPjEqA4'
-        if decoded_token['iss'] != iss:
-            return False
-        elif decoded_token['token_use'] != 'access':
-            return False
-        return True
-    except Exception:
-        return False
-#
-def validate_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if kwargs['token'] == None or is_token_valid(kwargs['token'])==False:
-            return print("invalide token, need to login")
-        return f(*args, **kwargs)
-    return decorated_function
+bootstrap = Bootstrap(application)
 
 
-@application.route("/fetch_vr/<string:place_id>")
-def fetch_vr(place_id):
-    return render_template("3dspace.html",name="JGPnGQ6hosj")
+@login_manager.user_loader
+def user_loader(session_token):
+    """Populate user object, check expiry"""
+    if "expires" not in session:
+        return None
 
-@application.after_request
-def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-    return response
+    expires = datetime.utcfromtimestamp(session['expires'])
+    expires_seconds = (expires - datetime.utcnow()).total_seconds()
+    if expires_seconds < 0:
+        return None
 
-# @application.route("/vrservice")
-# def vr_service():
-#     return render_template("vrservice.html")
+    user = User()
+    user.id = session_token
+    if 'credit' in session:
+         user.credit = session['credit']
+    else:
+        user.credit = '0'
+
+    return user
+
+# route to show index/home page
+@application.route('/index')
+@application.route("/", methods=['GET', 'POST'])
+def index():
+    return render_template("index.html")
+
+@application.route("/virtualreality")
+def show_vr():
+    return render_template("virtualreality.html")
+
+@application.route("/price")
+@login_required
+def price():
+    return render_template('price.html')
 
 @application.route("/contact", methods = ['GET', 'POST'])
-def contact():
+def show_contact():
     form = ContactForm()
     if request.method == 'POST':
         if form.validate() == False:
@@ -124,20 +100,101 @@ def contact():
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
 
-@application.route("/price")
-def price():
-    return render_template('price.html')
+# def flash_errors(form,formname):
+#     """Flashes form errors"""
+#     for field, errors in form.errors.items():
+#         for error in errors:
+#             flash(u"%s %s - %s" % (formname, getattr(form, field).label.text,error), 'error')
+#             print(u"%s %s - %s" % (formname, getattr(form, field).label.text,error), 'error')
 
-# @application.route("/credit",methods = ['GET', 'POST'])
-# def credit_account():
-#     form = CreditForm()
-#     return render_template('credit.html', form=form)
+def redirect_url(default='index'):
+    return request.args.get('next') or \
+           request.referrer or \
+           url_for(default)
 
-@application.route("/credit",methods=['GET','POST'])
+@application.route("/sign",methods = ['GET','POST'])
+def sign():
+    signinform = SigninForm(prefix="signin")
+    signupform = SignupForm(prefix="signup")
+
+    if request.method == 'POST':
+        form = request.form
+        pprint.pprint(form)
+        if request.form['btn'] == 'Signin':
+            if signinform.validate_on_submit():
+                try:
+                    auth_cognito = Cognito(cognito_userpool_id, cognito_client_id,
+                                           user_pool_region=cognito_userpool_region,
+                                           username=form['signin-username'])
+                    auth_cognito.authenticate(password=form['signin-password'])
+                    decoded_token = cognitojwt.decode(auth_cognito.id_token,cognito_userpool_region,cognito_userpool_id,cognito_client_id)
+                    user = auth_cognito.get_user()
+                    credit = user._data['custom:credit']
+                except Exception as e:
+                    if hasattr(e, 'message'):
+                        msg = e.message
+                    else:
+                        msg = e
+                    flash(msg, 'error')
+                    return redirect(request.referrer)
+                else:
+                    flash("Signin Successfully!")
+
+                    user = User()
+                    user.id = decoded_token["cognito:username"]
+                    user.credit = credit
+                    session['credit'] = credit
+                    session['expires'] = decoded_token["exp"]
+                    session['refresh_token'] = auth_cognito.refresh_token
+                    session['id_token'] = auth_cognito.id_token
+                    session['access_token'] = auth_cognito.access_token
+                    login_user(user, remember=True)
+                    next_url = request.args.get('next','index').strip("/")
+                    print("next_url:{}".format(next_url))
+                    return redirect(url_for(next_url))
+
+            else:
+                # flash_errors(signinform,"signinform")
+                return redirect(request.referrer)
+
+        elif request.form['btn'] == 'Signup':
+            if signupform.validate_on_submit():
+                try:
+                    u = Cognito(cognito_userpool_id, cognito_client_id,cognito_userpool_region)
+                    u.add_base_attributes(email=form['signup-email'])
+                    u.add_custom_attributes(credit='0')
+                    u.register(form['signup-username'], form['signup-password'])
+                except Exception as e:
+                    if hasattr(e, 'message'):
+                        msg = e.message
+                    else:
+                        msg = e
+                    flash(msg, 'error')
+                else:
+                    flash ("Finish the signup by confirm link in mailbox")
+
+            return redirect(request.referrer)
+
+    return render_template('sign.html', signinform=signinform,signupform=signupform)
+
+@application.route("/signout")
+@login_required
+def signout():
+    if 'id_token' in session and 'access_token' in session and 'refresh_token':
+        u = Cognito(cognito_userpool_id, cognito_client_id,cognito_userpool_region,id_token=session['id_token'],
+                    refresh_token=session['refresh_token'],access_token=session['access_token'])
+        u.logout()
+
+    logout_user()
+    # to do
+    return redirect(url_for('index'))
+
+@application.route("/topup",methods=['GET','POST'])
+@login_required
 def topup():
     form = CreditForm()
     if request.method == 'POST':
-        pprint.pprint(request.form)
+        msg = ""
 
         token = request.form['id']  # Using Flask
         amount = request.form['amount']
@@ -147,98 +204,36 @@ def topup():
             description='vr 360 service fee',
             source=token,
         )  # todo how to know charge is success?
-        return amount
-    else:
-        return render_template("credit.html",form=form, key=stripe_keys['publishable_key'])
+        try:
+            if 'id_token' in session and 'access_token' in session and 'refresh_token':
+                u = Cognito(cognito_userpool_id, cognito_client_id, cognito_userpool_region, id_token=session['id_token'],
+                            refresh_token=session['refresh_token'], access_token=session['access_token'],
+                            username=current_user.id)
+                topup_amount = int(float(amount)/100)
+                user = u.get_user()
+                balance = int(user._data['custom:credit'])
+                new_balance = topup_amount + balance
+                u.update_profile({'custom:credit': str(new_balance)})
+                user = u.get_user()
+                balance = user._data['custom:credit']
+                session['credit'] = balance
+                current_user.credit = balance
+            else:
+                raise Exception("Charged,but fail to topup the account")
+        except Exception as e:
+            if hasattr(e, 'message'):
+                msg = e.message
+            else:
+                msg = e
+        else:
+            msg = "Topup Successfully"
+        finally:
+            # flash(msg)
+            return msg#render_template("topup.html",form=form, key=stripe_keys['publishable_key'])#redirect(url_for("topup"))
 
-# @mobile_template('{mobile/}index.html')
-def show_homepage():
-    return render_template("home.html")
-
-@application.route('/index')
-@application.route("/",methods=['GET', 'POST'])
-@mobilized(show_homepage)
-def show_homepage():
-    return render_template("home.html")
-    # return redirect(url_for('show_map',place_id="ChIJJdxLbfBHDW0Rh5OtgMO10QI",lat=-36.848448,lng=174.76219100000003))
-
-@application.route("/showmap")
-# @mobile_template('{mobile/}google_map.html')
-# def show_map(template):
-def show_map():
-    place_id = request.args.get('place_id')
-    lat = request.args.get('lat')
-    lng = request.args.get('lng')
-    location = {
-        "place_id":place_id,
-        "lat":lat,
-        "lng":lng
-    }
-    # return render_template(template,location=location)
-    return render_template("google_map.html",location=location)
-    # return render_template("map.html",location=location)
-
-@application.route("/matterport/<name>")
-def matterport(name):
-    return render_template("3dspace.html",name=name)
-
-@application.route("/map")
-def map():
-    place_id = request.args.get('place_id','ChIJJdxLbfBHDW0Rh5OtgMO10QI')
-    lat = request.args.get('lat',-36.848448)
-    lng = request.args.get('lng',174.76219100000003)
-
-    location = {
-        "place_id":place_id,
-        "lat":lat,
-        "lng":lng
-    }
-    return render_template("map.html",location = location)
-
-@application.route("/virtualreality")
-def virtualreality():
-    return render_template("virtualreality.html")
-
-@application.route("/ip")
-def ip():
-    print(str(request.__dict__))
-    return jsonify(str(request.__dict__))
-
-
-# @application.route("/validatetoken",methods=['POST'])
-# def validatetoken():
-#     access_token = request.form['access_token']
-#     # print(is_token_valid(access_token))
-#     if is_token_valid(access_token):
-#         return "True"
-#     else:
-#         return "False"
-
-
-@application.route("/validatetoken/<token>")
-@validate_required
-def validatetoken(token):
-    return "True"
-
-@application.route("/payment",methods=['GET','POST'])
-def clearPayment():
-    form = CreditForm()
-    if request.method == 'POST':
-        pprint.pprint(request.form)
-
-        token = request.form['id']  # Using Flask
-        amount = request.form['amount']
-        charge = stripe.Charge.create(
-            amount= amount,
-            currency='nzd',
-            description='vr 360 service fee',
-            source=token,
-        )  # todo how to know charge is success?
-        return amount
-    else:
-        return render_template("payment.html",form=form, key=stripe_keys['publishable_key'])
-
+    elif request.method == 'GET':
+        return render_template("topup.html",form=form, key=stripe_keys['publishable_key'])
 
 if __name__ == "__main__":
     # application.run(host="192.168.20.8",debug=True)
-    application.run(host="192.168.20.8",debug=True, ssl_context='adhoc')
+    application.run(host="192.168.20.8",debug=True,ssl_context='adhoc')
