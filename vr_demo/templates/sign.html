@@ -72,7 +72,7 @@
                                         <!--<div class="row">-->
                                             <!--<div class="col-md-6 col-md-offset-3">-->
                                                 <button id= "signin_submit" type="submit" class="form-control btn btn-login" tabindex="4" name="btn" value="Signin">
-                                                    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none" ></span>
+                                                    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingSign" style="display: none" ></span>
                                                     <span class="icon glyphicon glyphicon-log-in" aria-hidden="true"></span>
                                                     Signin
                                                 </button>
@@ -128,14 +128,14 @@
                                             </label>
                                         </div>
                                         <div class="form-group">
-                                            <input type="submit" class="form-control btn btn-login" name="btn" value="Signup">
+                                            <!--<input type="submit" class="form-control btn btn-login" name="btn" value="Signup">-->
                                             <!--<div class="row">-->
                                                 <!--<div class="col-sm-6 col-sm-offset-3">-->
-                                                    <!--<button id="btnregbuttonloginmodel" type="submit" class="form-control btn btn-register" tabindex="4">-->
-                                                        <!--<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingReg" style="display: none"></span>-->
-                                                        <!--<span class="icon glyphicon glyphicon-registration-mark" aria-hidden="true"></span>-->
-                                                        <!--现在注册-->
-                                                    <!--</button>-->
+                                                    <button id= "signup_submit" type="submit" class="form-control btn btn-register" tabindex="4" name="btn" value="Signup">
+                                                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingSign" style="display: none"></span>
+                                                        <span class="icon glyphicon glyphicon-registration-mark" aria-hidden="true"></span>
+                                                        现在注册
+                                                    </button>
                                                 <!--</div>-->
                                             <!--</div>-->
                                         </div>
@@ -176,6 +176,7 @@
     <script>
         $(document).ready(function(){
             var active_panel = localStorage.getItem("active_panel");
+            <!--alert("document ready:"+active_panel);-->
 
             if(active_panel == "register-form-link")
             {
@@ -192,11 +193,12 @@
                 n.preventDefault()
             }
 
-            $(".loadingReg").hide();
+            $(".loadingSign").hide();
         });
 
         $("#login-form-link").click(function(n) {
             localStorage.setItem("active_panel","login-form-link");
+            <!--alert("#login-form-link clicked:"+localStorage.getItem("active_panel"));-->
             $('.flashes').fadeOut();
             $("#login-form").delay(100).fadeIn(100);
             $("#register-form").fadeOut(100);
@@ -207,6 +209,7 @@
 
         $("#register-form-link").click(function(n) {
             localStorage.setItem("active_panel","register-form-link");
+            <!--alert("#register-form-link clicked:"+localStorage.getItem("active_panel"));-->
             $('.flashes').fadeOut();
             $("#register-form").delay(100).fadeIn(100);
             $("#login-form").fadeOut(100);
@@ -216,7 +219,14 @@
         });
 
         $("#signin_submit").click(function(){
-            $(".loadingReg").show();
+            localStorage.setItem("active_panel","login-form-link");
+            $(".loadingSign").show();
+            return True;
+        });
+
+        $("#signup_submit").click(function(){
+            localStorage.setItem("active_panel","register-form-link");
+            $(".loadingSign").show();
             return True;
         });
     </script>

@@ -64,7 +64,14 @@
                         {{ form.subscribe_amount.label }}<br>
                         {{ form.subscribe_amount(class="form-control credit-amount") }}<br>
                         <br>
-                        {{ form.submit }}
+                        <!--{{ form.submit }}-->
+                        <button id= "topup_submit" type="submit" class="form-control btn btn-register" tabindex="4" >
+                            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate loadingSign" style="display: none"></span>
+                            <span class="icon glyphicon glyphicon-usd" aria-hidden="true"></span>
+                            充值
+                        </button>
+
+
                     </div>
                 </fieldset>
                 </form>
@@ -80,6 +87,11 @@
 {% block extrascript %}
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <script>
+
+        $(document).ready(function(){
+            $(".loadingSign").hide();
+        });
+
 
         var amount;//= $('input.credit-amount').val()*100;
 
@@ -102,8 +114,8 @@
             }
         });
 
-        $('input#submit').on('click', function(e) {
-            <!--alert("start to charge");-->
+        $('#topup_submit').on('click', function(e) {
+            $(".loadingSign").show();
             amount = $('input.credit-amount').val()*100;
             // Open Checkout with further options:
             handler.open({

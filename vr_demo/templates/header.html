@@ -59,18 +59,30 @@
                         <!--<li><a href="/signout">SignOut</a></li>-->
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" >
+                            <span class="icon glyphicon glyphicon-user" aria-hidden="true"></span>
                             <span>
                                 {{ current_user.id }}
                             </span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/topup">Credit:{{current_user.credit}}</a></li>
-                            <li><a href="/signout">SignOut</a></li>
+                            <li>
+                                <a href="/topup">
+                                    <span class="icon glyphicon glyphicon-usd" aria-hidden="true"></span>
+                                   Credit:{{current_user.credit}}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/signout">
+                                    <span class="icon glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                                    SignOut
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 {% else %}
                     <li>
                         <a id="sign_menu" class="lnkreguser" style="margin-right: 10px;" href="/sign">
+                            <span class="icon glyphicon glyphicon-log-in" aria-hidden="true"></span>
                             <span id="sign">SignIn/Up</span>
                         </a>
                     </li>

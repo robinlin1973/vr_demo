@@ -121,6 +121,7 @@ def sign():
         form = request.form
         pprint.pprint(form)
         if request.form['btn'] == 'Signin':
+            # session["active_panel"] = "login-form-link"
             if signinform.validate_on_submit():
                 try:
                     auth_cognito = Cognito(cognito_userpool_id, cognito_client_id,
@@ -130,11 +131,14 @@ def sign():
                     decoded_token = cognitojwt.decode(auth_cognito.id_token,cognito_userpool_region,cognito_userpool_id,cognito_client_id)
                     user = auth_cognito.get_user()
                     credit = user._data['custom:credit']
+                # except NotAuthorizedException as e:
+                #     flash(e.response['Error']['Message'])
+                #     return redirect(request.referrer)
                 except Exception as e:
                     if hasattr(e, 'message'):
                         msg = e.message
                     else:
-                        msg = e
+                        msg = str(e)
                     flash(msg, 'error')
                     return redirect(request.referrer)
                 else:
@@ -154,10 +158,11 @@ def sign():
                     return redirect(url_for(next_url))
 
             else:
-                # flash_errors(signinform,"signinform")
+                flash(signinform.errors)
                 return redirect(request.referrer)
 
         elif request.form['btn'] == 'Signup':
+            # session["active_panel"] = "register-form-link"
             if signupform.validate_on_submit():
                 try:
                     u = Cognito(cognito_userpool_id, cognito_client_id,cognito_userpool_region)
@@ -168,10 +173,13 @@ def sign():
                     if hasattr(e, 'message'):
                         msg = e.message
                     else:
-                        msg = e
+                        msg = str(e)
                     flash(msg, 'error')
                 else:
+                    pprint.pprint(session)
                     flash ("Finish the signup by confirm link in mailbox")
+            else:
+                flash(signupform.errors,"error")
 
             return redirect(request.referrer)
 
