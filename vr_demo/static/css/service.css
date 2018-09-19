@@ -13,3 +13,68 @@
 #highlight_gif{
     padding: 15px;
 }
+
+
+.mapcontainer{
+    position:relative;
+}
+#bg{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+#ani{
+  left: 36%;
+  top: 13%;
+  width: 49%;
+  height: auto;
+  position: absolute;
+  z-index: 1;
+}
+.row-full-height {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+.row-eq-height{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    height:50%;
+    margin: 0 auto;
+    display: flex;
+}
+.iframe_embedded{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#mainmenu>li>a{
+    line-height:32px;
+    color: #ffffff;
+}
+
+#wechatcontact{
+    display:none;
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    height:200px;
+    width:200px;
+    border: 1px solid red;
+    background-color: #eee;
+    z-index: 10;
+}
+
+#divContent
+{
+    min-height: 100%;
+    height: auto !important; /*Cause footer to stick to bottom in IE 6*/
+    height: 100%;
+    margin: 0 auto -100px; /*Allow for footer height*/
+    vertical-align:bottom;
+}

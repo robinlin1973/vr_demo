@@ -8,11 +8,12 @@
         }
 
         function clickMarker(marker,place_id){
-            if(place_id){
+            if(marker){
                 <!--location.assign("/fetch_vr/" + place_id);-->
-                location.assign("/matterport/JGPnGQ6hosj");
+//                console.log(marker.title);
+                location.assign("/matterport/" + marker.title);
             }else{
-                alert("no valid place_id")
+                alert("no valid marker")
             }
         }
 
@@ -42,8 +43,8 @@
             firstChild.style.backgroundColor = '#fff';
             firstChild.style.border = 'none';
             firstChild.style.outline = 'none';
-            firstChild.style.width = '28px';
-            firstChild.style.height = '28px';
+            firstChild.style.width = '40px';
+            firstChild.style.height = '40px';
             firstChild.style.borderRadius = '2px';
             firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
             firstChild.style.cursor = 'pointer';
@@ -53,7 +54,7 @@
             controlDiv.appendChild(firstChild);
 
             var secondChild = document.createElement('div');
-            secondChild.style.margin = '5px';
+            secondChild.style.margin = '11px';
             secondChild.style.width = '18px';
             secondChild.style.height = '18px';
             secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-1x.png)';
@@ -77,7 +78,7 @@
                 if(navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function(position) {
                         var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                        marker.setPosition(latlng);
+//                        marker.setPosition(latlng);
                         map.setCenter(latlng);
                         clearInterval(animationInterval);
                         $('#you_location_img').css('background-position', '-144px 0px');
@@ -99,33 +100,44 @@
             place_id = loc.place_id;
             lat = parseFloat(loc.lat);
             lng = parseFloat(loc.lng);
-            <!--alert("lat"+"lng")-->
+//            alert("lat:"+lat+"lng:"+lng);
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: lat,lng: lng},
                 zoom: 13,
                 mapTypeId: 'roadmap',
-                disableDoubleClickZoom : true
+                disableDoubleClickZoom : true,
+                fullscreenControl: false,
+                mapTypeControl: false,
             });
 
             var markers = [];
             // Create the search box and link it to the UI element.
             var input = document.getElementById('pac-input');
             var searchBox = new google.maps.places.SearchBox(input);
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+//            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
             // Bias the SearchBox results towards current map's viewport.
-                map.addListener('bounds_changed', function() {
+            map.addListener('bounds_changed', function() {
                 searchBox.setBounds(map.getBounds());
             });
 
             latlng = new google.maps.LatLng(lat, lng);
-            marker = new google.maps.Marker({map: map,icon: icon,title: place_id,position: latlng});
-            markers.push(marker)
-            marker.addListener('click', function(){clickMarker(marker,place_id)})
+//            marker = new google.maps.Marker({map: map,icon: icon,title: place_id,position: latlng});
+            latlng1 = new google.maps.LatLng(-36.8821759, 174.77358950000007);
+            marker1 = new google.maps.Marker({map: map,title: "16 Bracken Ave",position: latlng1});
+
+            markers.push(marker1)
+            latlng2 = new google.maps.LatLng(-36.9077891,174.81203219999998);
+            marker2 = new google.maps.Marker({map: map,title: "Flua Lighting",position: latlng2});
+//            marker2 = new google.maps.Marker({map: map,icon: icon,title: "Flua Lighting",position: latlng2});
+
+            markers.push(marker2)
+            marker1.addListener('click', function(){clickMarker(marker1,place_id)})
+            marker2.addListener('click', function(){clickMarker(marker2,place_id)})
 
             map.addListener('dblclick', function(e) {
                 marker.setMap(null);
-                placeMarkerAndPanTo(e.latLng, map);
+//                placeMarkerAndPanTo(e.latLng, map);
                 e.stop();
             });
 
@@ -141,10 +153,10 @@
               }
 
               // Clear out the old markers.
-              markers.forEach(function(marker) {
-                marker.setMap(null);
-              });
-              markers = [];
+//              markers.forEach(function(marker) {
+//                marker.setMap(null);
+//              });
+//              markers = [];
 
               // For each place, get the icon, name and location.
               var bounds = new google.maps.LatLngBounds();
@@ -154,16 +166,19 @@
                   return;
                 }
 
-                // Create a marker for each place.
-                marker = new google.maps.Marker({
-                  map: map,
-                  icon: icon,
-                  title: place.name,
-                  position: place.geometry.location
-                })
+//                // Create a marker for each place.
+//                marker = new google.maps.Marker({
+//                  map: map,
+//                  icon: icon,
+//                  title: place.name,
+//                  position: place.geometry.location
+//                })
 
-                marker.addListener('click', function(){clickMarker(marker,place.place_id)})
-                markers.push(marker);
+                console.log("lat:"+ place.geometry.location.lat()+" lng:"+place.geometry.location.lng());
+                console.log(place.name);
+
+//                marker.addListener('click', function(){clickMarker(marker,place.place_id)})
+//                markers.push(marker);
 
                 if (place.geometry.viewport) {
                   // Only geocodes have viewport.

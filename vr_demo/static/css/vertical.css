@@ -1,0 +1,117 @@
+
+
+#lowrbdy{ width:100%;	height:99.3%;	position:absolute;	top:0px;	left:0px;	}
+#lowrbdy img{	width:100%;	height:100%;	}
+
+.outer{	width:90%; height:620px; position:relative; background:rgba(255,255,255,0.6); margin:0px auto;}
+
+h1{text-align:center; padding:0px; font-family: 'Rubik', sans-serif; font-size:38px; padding:20px; }
+
+/* The tabs */
+.tab{
+    font: bold 13px sans-serif;
+	background:#00BCD4;
+    border: 1px solid #CECECE;
+    margin:30px auto;
+    width: 80%;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.tab ul{
+    float: left;
+    list-style: none;
+    text-align: left;
+    margin: 0px;
+    padding-left: 0px;
+}
+
+.tab ul li{
+    margin-right: -1px;
+}
+
+.tab ul li a{
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid transparent;
+    border-right: 0px;
+    border-left: 0px;
+    padding: 16px 40px 16px 20px;
+}
+
+.tab ul li a.tab-active {
+    background:#002040;
+}
+
+.tab ul li:first-child a{
+    border-top: 0px;
+}
+
+
+/* The content */
+.tab .content{
+    overflow: hidden;
+    border-left: 1px solid #dddddd;
+    font-weight: normal;
+    background-color: #fff;
+    padding: 20px 40px 45px;
+    margin: 0px auto;
+    box-shadow: -3px 0 0px #F3F3F3;
+    text-align: center;
+}
+
+.tab .content div{
+    display: none;
+}
+
+.tab .content div.content-active{
+    display: block;
+}
+
+.tab .content div p{
+    color: #565a5c;
+    line-height: 1.5;
+    text-align: left;
+    margin: 5px 0px 20px;
+}
+
+.tab .content div img{
+    width: 100%;
+}
+
+@media (max-width: 685px) {
+.tab ul{
+	float: none;
+}
+
+.tab ul li{
+    display: inline-block;
+    margin-bottom: -1px;
+}
+
+.tab ul li a{
+    border: 1px solid transparent;
+    border-bottom: 0px;
+    border-top: 0px;
+    padding: 12px 15px;
+}
+
+.tab ul li a.tab-active {
+    border-color: #dddddd;
+    background-color: #002040;
+    box-shadow: 2px 0px 0px #EFEFEF;
+}
+
+.tab ul li:first-child a{
+    border-left: 0px;
+}
+
+.tab .content{
+    padding: 15px 30px 30px;
+    border-left: 0px;
+    border-top: 1px solid #dddddd;
+    box-shadow: 0px -3px 0px #F3F3F3;
+}
+
+}

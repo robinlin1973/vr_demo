@@ -77,9 +77,23 @@ def show_vr():
     return render_template("virtualreality.html")
 
 @application.route("/price")
-@login_required
+# @login_required
 def price():
     return render_template('price.html')
+
+
+@application.route("/map")
+def map():
+    place_id = request.args.get('place_id','ChIJJdxLbfBHDW0Rh5OtgMO10QI')
+    lat = request.args.get('lat',-36.848448)
+    lng = request.args.get('lng',174.76219100000003)
+
+    location = {
+        "place_id":place_id,
+        "lat":lat,
+        "lng":lng
+    }
+    return render_template("map.html",location = location)
 
 @application.route("/contact", methods = ['GET', 'POST'])
 def show_contact():
@@ -241,6 +255,17 @@ def topup():
 
     elif request.method == 'GET':
         return render_template("topup.html",form=form, key=stripe_keys['publishable_key'])
+
+
+@application.route("/matterport/<name>")
+def matterport(name):
+    # print("route to:" + "matterport/"+name)
+    if name=="16 Bracken Ave":
+        name = "J6dSGbJtQgv"
+    elif name=="Flua Lighting":
+        name = "eguC3mzt8XJ"
+
+    return render_template("3dspace.html",name=name)
 
 if __name__ == "__main__":
     # application.run(host="192.168.20.8",debug=True)
